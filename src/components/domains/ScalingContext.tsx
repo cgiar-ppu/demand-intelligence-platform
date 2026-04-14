@@ -1,5 +1,6 @@
 import Badge from '../common/Badge'
 import Card from '../common/Card'
+import InfrastructureIndex from '../visualizations/InfrastructureIndex'
 
 export default function ScalingContext() {
   return (
@@ -7,7 +8,7 @@ export default function ScalingContext() {
       <div>
         <div className="flex items-center gap-3 mb-2">
           <h1 className="text-2xl font-bold text-gray-900">Scaling Context</h1>
-          <Badge label="Coming Soon" variant="accent" />
+          <Badge label="Domain" variant="primary" />
         </div>
         <p className="text-gray-600 italic">
           "What are the conditions that shape and influence how innovations can be taken to scale?"
@@ -22,6 +23,15 @@ export default function ScalingContext() {
           <li>Infrastructure and market access</li>
         </ul>
       </Card>
+      <div>
+        <h2 className="text-base font-semibold text-gray-800 mb-1">Infrastructure Index by Country</h2>
+        <p className="text-sm text-gray-500 mb-3">
+          Comparative scores for roads, irrigation, energy, and digital infrastructure across target countries.
+        </p>
+        <Card>
+          <InfrastructureIndex />
+        </Card>
+      </div>
       <Card title="Analytical Contributions">
         <p className="text-sm text-gray-600">
           Provides contextual intelligence for prioritizing geographies and understanding

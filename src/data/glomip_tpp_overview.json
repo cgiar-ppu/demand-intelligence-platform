@@ -1,0 +1,457 @@
+{
+  "tpp_count": 433,
+  "crops": {
+    "Maize": 89,
+    "Wheat": 53,
+    "Rice": 50,
+    "Sorghum": 43,
+    "Millet": 37,
+    "Cassava": 26,
+    "Groundnut": 19,
+    "Beans": 17,
+    "Barley": 15,
+    "Soybean": 15,
+    "Cowpea": 12,
+    "Chickpea": 11,
+    "Sweetpotato": 7,
+    "Pigeonpea": 6,
+    "Faba bean": 5,
+    "Forages": 5,
+    "Lentil": 5,
+    "Potato": 5,
+    "Taro": 4,
+    "Yam": 3,
+    "Bambara groundnut": 2,
+    "Banana": 2,
+    "Grasspea": 2
+  },
+  "germplasms": {
+    "No Germplasm Type": 275,
+    "Indica": 42,
+    "Spring": 27,
+    "Pearl": 25,
+    "Durum": 21,
+    "Finger": 12,
+    "Kabuli": 9,
+    "Winter": 5,
+    "Tropical japonica": 4,
+    "Desi": 2,
+    "Urochloa isp": 2,
+    "Panicum max": 2,
+    "White": 2,
+    "Matooke": 1,
+    "Plantain": 1,
+    "Waxy": 1,
+    "Urochloa hum": 1,
+    "Water": 1
+  },
+  "centers": {
+    "CIMMYT": 100,
+    "IITA": 66,
+    "ICRISAT": 54,
+    "ICARDA": 51,
+    "CIAT": 36,
+    "IRRI": 24,
+    "AfricaRice": 20,
+    "CIP": 12,
+    "DR&SS": 9,
+    "DARS": 8,
+    "KALRO": 8,
+    "EIAR": 7,
+    "IIAM": 6,
+    "ZARI (Zambia)": 6,
+    "NARO": 5,
+    "TARI": 5,
+    "CIMMYT-ICARDA": 5,
+    "NRCRI": 4,
+    "CNRA": 3,
+    "CSIR-CRI": 3,
+    "INERA (DRC)": 1
+  },
+  "breeding_effort": {
+    "Category 1: Full": 190,
+    "Category 4: Late Testing": 82,
+    "Category 2: Early and Late Testing": 90,
+    "Category 0: Pre-breeding Only": 1,
+    "Category 3: Backcrossing": 1
+  },
+  "tiers": {
+    "": 433
+  },
+  "statuses": {
+    "Funded": 433
+  },
+  "tpp_aligned_ms": {
+    "Yes": 433,
+    "No": 0
+  },
+  "tpp_aligned_bp": {
+    "Yes": 414,
+    "No": 19
+  },
+  "traitIDs": 872,
+  "traitCrops": {
+    "Cassava": 102,
+    "Millet": 62,
+    "Maize": 61,
+    "Wheat": 60,
+    "Sorghum": 59,
+    "Rice": 55,
+    "Barley": 44,
+    "Banana": 44,
+    "Groundnut": 40,
+    "Potato": 39,
+    "Yam": 38,
+    "Beans": 35,
+    "Sweetpotato": 30,
+    "Cowpea": 28,
+    "Taro": 27,
+    "Pigeonpea": 25,
+    "Lentil": 23,
+    "Faba bean": 21,
+    "Chickpea": 19,
+    "Forages": 17,
+    "Soybean": 16,
+    "Bambara groundnut": 16,
+    "Grasspea": 11
+  },
+  "traitTypes": {
+    "Quality - Analytical": 235,
+    "Biotic - Disease": 141,
+    "Quality - Visual": 107,
+    "Morphological": 102,
+    "Agronomic": 75,
+    "Abiotic": 69,
+    "Biotic - Pests": 67,
+    "Phenological": 42,
+    "Physiological": 19,
+    "Biotic - Parasitic Weeds": 9,
+    "Other": 6
+  },
+  "traitReqs": {
+    "Essential: Maintain": 564,
+    "Nice to Have": 446,
+    "Essential: Improve": 253
+  },
+  "tppTraitReqsEssnImprove": [
+    {
+      "TraitID": "TR-00122",
+      "ValueProposition": "03 Farmer - Less Loss & Risk - CC relevant stress",
+      "TraitName": "Yield Under Drought",
+      "ScaleOption": "tons/ha",
+      "TraitType": "Abiotic",
+      "TPP_Count": 70
+    },
+    {
+      "TraitID": "TR-00121",
+      "ValueProposition": "01 Farmer - Higher Productivity",
+      "TraitName": "Yield Under Optimum Conditions",
+      "ScaleOption": "tons/ha",
+      "TraitType": "Agronomic",
+      "TPP_Count": 67
+    },
+    {
+      "TraitID": "TR-00172",
+      "ValueProposition": "01 Farmer - Higher Productivity",
+      "TraitName": "Yield",
+      "ScaleOption": "kg/ha",
+      "TraitType": "Agronomic",
+      "TPP_Count": 48
+    },
+    {
+      "TraitID": "TR-00176",
+      "ValueProposition": "01 Farmer - Higher Productivity",
+      "TraitName": "Head Rice Recovery",
+      "ScaleOption": "%",
+      "TraitType": "Quality - Analytical",
+      "TPP_Count": 46
+    },
+    {
+      "TraitID": "TR-00698",
+      "ValueProposition": "01 Farmer - Higher Productivity",
+      "TraitName": "Grain yield (at 12.5% moisture content)",
+      "ScaleOption": "t/ha",
+      "TraitType": "Agronomic",
+      "TPP_Count": 42
+    },
+    {
+      "TraitID": "TR-00602",
+      "ValueProposition": "01 Farmer - Higher Productivity",
+      "TraitName": "Grain Yield",
+      "ScaleOption": "kg/ha",
+      "TraitType": "Agronomic",
+      "TPP_Count": 36
+    },
+    {
+      "TraitID": "TR-00016",
+      "ValueProposition": "01 Farmer - Higher Productivity",
+      "TraitName": "High And Stable Yield Potential",
+      "ScaleOption": "tons/ha",
+      "TraitType": "Agronomic",
+      "TPP_Count": 34
+    },
+    {
+      "TraitID": "TR-00025",
+      "ValueProposition": "04 Farmer - Less Loss & Risk - Biotic stress",
+      "TraitName": "Stripe Rust",
+      "ScaleOption": "%",
+      "TraitType": "Biotic - Disease",
+      "TPP_Count": 31
+    },
+    {
+      "TraitID": "TR-00184",
+      "ValueProposition": "04 Farmer - Less Loss & Risk - Biotic stress",
+      "TraitName": "Neck Blast",
+      "ScaleOption": "1 to 9",
+      "TraitType": "Biotic - Disease",
+      "TPP_Count": 30
+    },
+    {
+      "TraitID": "TR-00155",
+      "ValueProposition": "04 Farmer - Less Loss & Risk - Biotic stress",
+      "TraitName": "Yield Under Striga",
+      "ScaleOption": "tons/ha",
+      "TraitType": "Biotic - Parasitic Weeds",
+      "TPP_Count": 29
+    }
+  ],
+  "tppTraitReqsEssnMaintain": [
+    {
+      "TraitID": "TR-00132",
+      "ValueProposition": "09 Farmer - Appropriate maturity",
+      "TraitName": "Grain Moisture",
+      "ScaleOption": "%",
+      "TraitType": "Phenological",
+      "TPP_Count": 87
+    },
+    {
+      "TraitID": "TR-00130",
+      "ValueProposition": "06 Farmer - Less Loss - Other",
+      "TraitName": "Root Lodging",
+      "ScaleOption": "%",
+      "TraitType": "Morphological",
+      "TPP_Count": 85
+    },
+    {
+      "TraitID": "TR-00131",
+      "ValueProposition": "06 Farmer - Less Loss - Other",
+      "TraitName": "Stem Lodging",
+      "ScaleOption": "%",
+      "TraitType": "Morphological",
+      "TPP_Count": 85
+    },
+    {
+      "TraitID": "TR-00135",
+      "ValueProposition": "15 Other",
+      "TraitName": "Plant Height",
+      "ScaleOption": "cm",
+      "TraitType": "Morphological",
+      "TPP_Count": 84
+    },
+    {
+      "TraitID": "TR-00136",
+      "ValueProposition": "15 Other",
+      "TraitName": "Ear Position (=Ear height/plant height)",
+      "ScaleOption": "%",
+      "TraitType": "Morphological",
+      "TPP_Count": 84
+    },
+    {
+      "TraitID": "TR-00158",
+      "ValueProposition": "09 Farmer - Appropriate maturity",
+      "TraitName": "Maturity (FAO Scale)",
+      "ScaleOption": "GDD",
+      "TraitType": "Phenological",
+      "TPP_Count": 83
+    },
+    {
+      "TraitID": "TR-00133",
+      "ValueProposition": "03 Farmer - Less Loss & Risk - CC relevant stress",
+      "TraitName": "ASI",
+      "ScaleOption": "days",
+      "TraitType": "Abiotic",
+      "TPP_Count": 76
+    },
+    {
+      "TraitID": "TR-00144",
+      "ValueProposition": "04 Farmer - Less Loss & Risk - Biotic stress",
+      "TraitName": "Maize Streak Virus (MSV) Resistance",
+      "ScaleOption": "1 to 9",
+      "TraitType": "Biotic - Disease",
+      "TPP_Count": 69
+    },
+    {
+      "TraitID": "TR-00573",
+      "ValueProposition": "14 Multiplier - Easier to multiply",
+      "TraitName": "Male plant height : female ear height ratio",
+      "ScaleOption": "%",
+      "TraitType": "Morphological",
+      "TPP_Count": 65
+    },
+    {
+      "TraitID": "TR-00481",
+      "ValueProposition": "14 Multiplier - Easier to multiply",
+      "TraitName": "Female Single Cross Seed Yield",
+      "ScaleOption": "tons/ha",
+      "TraitType": "Agronomic",
+      "TPP_Count": 64
+    }
+  ],
+  "tppTraitReqsNiceToHave": [
+    {
+      "TraitID": "TR-00156",
+      "ValueProposition": "04 Farmer - Less Loss & Risk - Biotic stress",
+      "TraitName": "Fall Armyworm (FAW) Resistance Leaf",
+      "ScaleOption": "1 to 9",
+      "TraitType": "Biotic - Pests",
+      "TPP_Count": 55
+    },
+    {
+      "TraitID": "TR-00157",
+      "ValueProposition": "04 Farmer - Less Loss & Risk - Biotic stress",
+      "TraitName": "Fall Armyworm (FAW) Resistance Cob",
+      "ScaleOption": "1 to 9",
+      "TraitType": "Biotic - Pests",
+      "TPP_Count": 55
+    },
+    {
+      "TraitID": "TR-00134",
+      "ValueProposition": "03 Farmer - Less Loss & Risk - CC relevant stress",
+      "TraitName": "Stay-Green",
+      "ScaleOption": "1 to 9",
+      "TraitType": "Abiotic",
+      "TPP_Count": 53
+    },
+    {
+      "TraitID": "TR-00142",
+      "ValueProposition": "04 Farmer - Less Loss & Risk - Biotic stress",
+      "TraitName": "Maize Lethal Necrosis (MLN) Resistance",
+      "ScaleOption": "1 to 9",
+      "TraitType": "Biotic - Disease",
+      "TPP_Count": 45
+    },
+    {
+      "TraitID": "TR-00143",
+      "ValueProposition": "04 Farmer - Less Loss & Risk - Biotic stress",
+      "TraitName": "Yield Under Artificial MLN",
+      "ScaleOption": "tons/ha",
+      "TraitType": "Biotic - Disease",
+      "TPP_Count": 43
+    },
+    {
+      "TraitID": "TR-00169",
+      "ValueProposition": "13 User - Better nutrition and/or health",
+      "TraitName": "Grain Zinc Content (Polished Rice)",
+      "ScaleOption": "mg/kg",
+      "TraitType": "Quality - Analytical",
+      "TPP_Count": 33
+    },
+    {
+      "TraitID": "TR-00167",
+      "ValueProposition": "12 User - Meeting end-user requirements",
+      "TraitName": "Aroma",
+      "ScaleOption": "1 to 5",
+      "TraitType": "Quality - Analytical",
+      "TPP_Count": 31
+    },
+    {
+      "TraitID": "TR-00118",
+      "ValueProposition": "12 User - Meeting end-user requirements",
+      "TraitName": "Grain Texture",
+      "ScaleOption": "flint, semi-flint, semi-dent, dent",
+      "TraitType": "Quality - Visual",
+      "TPP_Count": 28
+    },
+    {
+      "TraitID": "TR-00015",
+      "ValueProposition": "03 Farmer - Less Loss & Risk - CC relevant stress",
+      "TraitName": "Heat Tolerance",
+      "ScaleOption": "tons/ha",
+      "TraitType": "Abiotic",
+      "TPP_Count": 27
+    },
+    {
+      "TraitID": "TR-00001",
+      "ValueProposition": "12 User - Meeting end-user requirements",
+      "TraitName": "1000 Kernel Weight",
+      "ScaleOption": "grams",
+      "TraitType": "Quality - Analytical",
+      "TPP_Count": 27
+    }
+  ],
+  "tppTraitValuePropositions": [
+    {
+      "name": "",
+      "value": 2
+    },
+    {
+      "name": "01 Farmer - Higher Productivity",
+      "value": 387
+    },
+    {
+      "name": "02 Farmer - Higher fodder yield or value",
+      "value": 55
+    },
+    {
+      "name": "03 Farmer - Less Loss & Risk - CC relevant stress",
+      "value": 199
+    },
+    {
+      "name": "04 Farmer - Less Loss & Risk - Biotic stress",
+      "value": 260
+    },
+    {
+      "name": "05 Farmer - Less Loss @ Location",
+      "value": 21
+    },
+    {
+      "name": "06 Farmer - Less Loss - Other",
+      "value": 33
+    },
+    {
+      "name": "07 Farmer - Greater fertilizer use efficiency",
+      "value": 25
+    },
+    {
+      "name": "08 Farmer - Less labor",
+      "value": 23
+    },
+    {
+      "name": "09 Farmer - Appropriate maturity",
+      "value": 20
+    },
+    {
+      "name": "10 Farmer - Longer storage",
+      "value": 2
+    },
+    {
+      "name": "11 User - Less labor",
+      "value": 12
+    },
+    {
+      "name": "12 User - Meeting end-user requirements",
+      "value": 87
+    },
+    {
+      "name": "13 User - Better nutrition and/or health",
+      "value": 53
+    },
+    {
+      "name": "14 Multiplier - Easier to multiply",
+      "value": 23
+    },
+    {
+      "name": "15 Other",
+      "value": 3
+    }
+  ],
+  "tppTraitValuePropositionsBar": {
+    "1": 32,
+    "2": 118,
+    "3": 205,
+    "4": 47,
+    "5": 17,
+    "6": 7,
+    "7": 1
+  }
+}

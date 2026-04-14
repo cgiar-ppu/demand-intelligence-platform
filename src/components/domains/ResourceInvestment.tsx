@@ -1,5 +1,6 @@
 import Badge from '../common/Badge'
 import Card from '../common/Card'
+import ResourceStackedBar from '../visualizations/ResourceStackedBar'
 
 export default function ResourceInvestment() {
   return (
@@ -7,7 +8,7 @@ export default function ResourceInvestment() {
       <div>
         <div className="flex items-center gap-3 mb-2">
           <h1 className="text-2xl font-bold text-gray-900">Resource & Investment</h1>
-          <Badge label="Coming Soon" variant="accent" />
+          <Badge label="Domain" variant="primary" />
         </div>
         <p className="text-gray-600 italic">
           "What resources are available, how are investments flowing, and where are the funding gaps for scaling innovations?"
@@ -22,6 +23,15 @@ export default function ResourceInvestment() {
           <li>Resource mobilization and gap identification</li>
         </ul>
       </Card>
+      <div>
+        <h2 className="text-base font-semibold text-gray-800 mb-1">Funding by Source per Country</h2>
+        <p className="text-sm text-gray-500 mb-3">
+          Stacked breakdown of funding from government, donors, private sector, and CGIAR sources across target countries.
+        </p>
+        <Card>
+          <ResourceStackedBar />
+        </Card>
+      </div>
       <Card title="Analytical Contributions">
         <p className="text-sm text-gray-600">
           Tracks investment flows and resource availability to identify

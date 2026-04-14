@@ -1,5 +1,6 @@
 import Badge from '../common/Badge'
 import Card from '../common/Card'
+import CommodityPriceLine from '../visualizations/CommodityPriceLine'
 
 export default function MarketIntelligence() {
   return (
@@ -7,7 +8,7 @@ export default function MarketIntelligence() {
       <div>
         <div className="flex items-center gap-3 mb-2">
           <h1 className="text-2xl font-bold text-gray-900">Market Intelligence</h1>
-          <Badge label="Coming Soon" variant="accent" />
+          <Badge label="Domain" variant="primary" />
         </div>
         <p className="text-gray-600 italic">
           "What are the market dynamics, competitive landscape, and commercial pathways for scaling innovations?"
@@ -22,6 +23,15 @@ export default function MarketIntelligence() {
           <li>Market access and distribution channels</li>
         </ul>
       </Card>
+      <div>
+        <h2 className="text-base font-semibold text-gray-800 mb-1">Commodity Price Trends</h2>
+        <p className="text-sm text-gray-500 mb-3">
+          Monthly price trends ($/ton) for rice, maize, and cassava over a 12-month period, showing seasonal dynamics.
+        </p>
+        <Card>
+          <CommodityPriceLine />
+        </Card>
+      </div>
       <Card title="Analytical Contributions">
         <p className="text-sm text-gray-600">
           Provides market-level intelligence to assess commercial viability
