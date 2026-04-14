@@ -1,5 +1,6 @@
 import Badge from '../common/Badge'
 import Card from '../common/Card'
+import SectorDonut from '../visualizations/SectorDonut'
 
 export default function Sector() {
   return (
@@ -7,7 +8,7 @@ export default function Sector() {
       <div>
         <div className="flex items-center gap-3 mb-2">
           <h1 className="text-2xl font-bold text-gray-900">Sector</h1>
-          <Badge label="Coming Soon" variant="accent" />
+          <Badge label="Domain" variant="primary" />
         </div>
         <p className="text-gray-600 italic">
           "What are the sector-specific dynamics, trends, and structural conditions that shape demand for agricultural innovation?"
@@ -22,6 +23,15 @@ export default function Sector() {
           <li>Research and development investment by sector</li>
         </ul>
       </Card>
+      <div>
+        <h2 className="text-base font-semibold text-gray-800 mb-1">Demand Distribution by Sector</h2>
+        <p className="text-sm text-gray-500 mb-3">
+          Proportional breakdown of demand signals across agriculture, water, climate, food systems, and other sectors.
+        </p>
+        <Card>
+          <SectorDonut />
+        </Card>
+      </div>
       <Card title="Analytical Contributions">
         <p className="text-sm text-gray-600">
           Identifies sector-specific demand patterns and structural conditions that

@@ -1,0 +1,288 @@
+{
+  "metadata": {
+    "source": "GloMIP - CGIAR Global Market Intelligence Platform",
+    "url": "https://glomip.cgiar.org/target-product-profiles",
+    "description": "Target Product Profiles (TPPs) define the blueprint of future crop varieties that meet market needs. Each TPP specifies trait requirements (Essential: Improve, Essential: Maintain, Nice to Have) linked to specific market segments.",
+    "total_tpps_global": 294,
+    "total_crops": 17,
+    "last_updated": "2025-12-01"
+  },
+  "tpps": [
+    {
+      "tpp_id": "TPP-NGA-RIC-001",
+      "crop": "Rice",
+      "tpp_name": "High-yielding irrigated lowland rice for Nigeria",
+      "target_country": "Nigeria",
+      "market_segment": "SPMS-NGA-RIC-001",
+      "organization": "AfricaRice",
+      "traits": [
+        { "trait_name": "Grain yield", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Iron deficiency tolerance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Blast resistance", "requirement": "Essential: Maintain", "priority_level": "High" },
+        { "trait_name": "Grain quality (parboiling)", "requirement": "Essential: Maintain", "priority_level": "Medium" },
+        { "trait_name": "Earliness", "requirement": "Nice to Have", "priority_level": "Low" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-NGA-RIC-002",
+      "crop": "Rice",
+      "tpp_name": "Drought-tolerant rainfed lowland rice for Nigeria",
+      "target_country": "Nigeria",
+      "market_segment": "SPMS-NGA-RIC-002",
+      "organization": "AfricaRice",
+      "traits": [
+        { "trait_name": "Drought tolerance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Weed competitiveness", "requirement": "Essential: Improve", "priority_level": "Medium" },
+        { "trait_name": "Grain quality", "requirement": "Essential: Maintain", "priority_level": "Medium" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-NGA-MAZ-001",
+      "crop": "Maize",
+      "tpp_name": "Striga-resistant maize hybrid for moist savanna Nigeria",
+      "target_country": "Nigeria",
+      "market_segment": "SPMS-NGA-MAZ-001",
+      "organization": "IITA",
+      "traits": [
+        { "trait_name": "Striga resistance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Aflatoxin resistance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Drought tolerance", "requirement": "Essential: Maintain", "priority_level": "Medium" },
+        { "trait_name": "Provitamin A content", "requirement": "Nice to Have", "priority_level": "Low" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-NGA-CAS-001",
+      "crop": "Cassava",
+      "tpp_name": "High-starch cassava for garri/fufu processing in Nigeria",
+      "target_country": "Nigeria",
+      "market_segment": "SPMS-NGA-CAS-001",
+      "organization": "IITA",
+      "traits": [
+        { "trait_name": "Dry matter content", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "CMD resistance", "requirement": "Essential: Maintain", "priority_level": "High" },
+        { "trait_name": "CBSD resistance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Fresh root yield", "requirement": "Essential: Improve", "priority_level": "Medium" },
+        { "trait_name": "Low cyanide content", "requirement": "Essential: Maintain", "priority_level": "Medium" },
+        { "trait_name": "Early bulking", "requirement": "Nice to Have", "priority_level": "Low" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-NGA-SOR-001",
+      "crop": "Sorghum",
+      "tpp_name": "Drought-tolerant grain sorghum for northern Nigeria",
+      "target_country": "Nigeria",
+      "market_segment": "SPMS-NGA-SOR-001",
+      "organization": "ICRISAT",
+      "traits": [
+        { "trait_name": "Drought tolerance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Striga resistance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain mold resistance", "requirement": "Essential: Maintain", "priority_level": "Medium" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-NGA-SOR-002",
+      "crop": "Sorghum",
+      "tpp_name": "Dual-purpose sorghum for food and fodder in Nigeria",
+      "target_country": "Nigeria",
+      "market_segment": "SPMS-NGA-SOR-001",
+      "organization": "ICRISAT",
+      "traits": [
+        { "trait_name": "Biomass yield", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Stay-green", "requirement": "Essential: Improve", "priority_level": "Medium" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Maintain", "priority_level": "Medium" }
+      ],
+      "priority_level": "Medium",
+      "status": "Active",
+      "breeding_pipeline": false
+    },
+    {
+      "tpp_id": "TPP-NGA-CWP-001",
+      "crop": "Cowpea",
+      "tpp_name": "Short-duration cowpea for dry savanna Nigeria",
+      "target_country": "Nigeria",
+      "market_segment": "SPMS-NGA-CWP-001",
+      "organization": "IITA",
+      "traits": [
+        { "trait_name": "Maruca pod borer resistance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Striga resistance", "requirement": "Essential: Improve", "priority_level": "Medium" },
+        { "trait_name": "Grain size (large)", "requirement": "Essential: Maintain", "priority_level": "Medium" },
+        { "trait_name": "Cooking time", "requirement": "Nice to Have", "priority_level": "Low" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-BGD-RIC-001",
+      "crop": "Rice",
+      "tpp_name": "High-yielding Boro season rice for Bangladesh",
+      "target_country": "Bangladesh",
+      "market_segment": "SPMS-BGD-RIC-001",
+      "organization": "IRRI",
+      "traits": [
+        { "trait_name": "Grain yield", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Zinc biofortification", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Cold tolerance (seedling)", "requirement": "Essential: Improve", "priority_level": "Medium" },
+        { "trait_name": "Blast resistance", "requirement": "Essential: Maintain", "priority_level": "High" },
+        { "trait_name": "Grain quality (slender)", "requirement": "Essential: Maintain", "priority_level": "Medium" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-BGD-RIC-002",
+      "crop": "Rice",
+      "tpp_name": "Submergence-tolerant Aman season rice for Bangladesh",
+      "target_country": "Bangladesh",
+      "market_segment": "SPMS-BGD-RIC-002",
+      "organization": "IRRI",
+      "traits": [
+        { "trait_name": "Submergence tolerance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Salinity tolerance", "requirement": "Essential: Improve", "priority_level": "Medium" },
+        { "trait_name": "BPH resistance", "requirement": "Essential: Maintain", "priority_level": "Medium" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-BGD-RIC-003",
+      "crop": "Rice",
+      "tpp_name": "Early-maturing Aus season rice for Bangladesh",
+      "target_country": "Bangladesh",
+      "market_segment": "SPMS-BGD-RIC-003",
+      "organization": "IRRI",
+      "traits": [
+        { "trait_name": "Early maturity", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Heat tolerance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Maintain", "priority_level": "Medium" }
+      ],
+      "priority_level": "Medium",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-BGD-POT-001",
+      "crop": "Potato",
+      "tpp_name": "Late blight resistant potato for Bangladesh",
+      "target_country": "Bangladesh",
+      "market_segment": "SPMS-BGD-POT-001",
+      "organization": "CIP",
+      "traits": [
+        { "trait_name": "Late blight resistance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Tuber yield", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Dry matter content", "requirement": "Essential: Maintain", "priority_level": "Medium" },
+        { "trait_name": "Dormancy period", "requirement": "Nice to Have", "priority_level": "Low" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": false
+    },
+    {
+      "tpp_id": "TPP-BGD-WHT-001",
+      "crop": "Wheat",
+      "tpp_name": "Heat-tolerant wheat for Bangladesh",
+      "target_country": "Bangladesh",
+      "market_segment": "SPMS-BGD-WHT-001",
+      "organization": "CIMMYT",
+      "traits": [
+        { "trait_name": "Terminal heat tolerance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Blast resistance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Improve", "priority_level": "Medium" },
+        { "trait_name": "Zinc biofortification", "requirement": "Nice to Have", "priority_level": "Low" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-KEN-MAZ-001",
+      "crop": "Maize",
+      "tpp_name": "Maize lethal necrosis resistant hybrid for Kenya highlands",
+      "target_country": "Kenya",
+      "market_segment": "SPMS-KEN-MAZ-001",
+      "organization": "CIMMYT",
+      "traits": [
+        { "trait_name": "MLN resistance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Stem borer resistance", "requirement": "Essential: Improve", "priority_level": "Medium" },
+        { "trait_name": "GLS resistance", "requirement": "Essential: Maintain", "priority_level": "Medium" },
+        { "trait_name": "Nutritional quality", "requirement": "Nice to Have", "priority_level": "Low" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-KEN-MAZ-002",
+      "crop": "Maize",
+      "tpp_name": "Drought-tolerant maize for Kenya mid-altitude",
+      "target_country": "Kenya",
+      "market_segment": "SPMS-KEN-MAZ-002",
+      "organization": "CIMMYT",
+      "traits": [
+        { "trait_name": "Drought tolerance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Fall armyworm resistance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Maintain", "priority_level": "Medium" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-KEN-WHT-001",
+      "crop": "Wheat",
+      "tpp_name": "Stem rust resistant wheat for Kenya highlands",
+      "target_country": "Kenya",
+      "market_segment": "SPMS-KEN-WHT-001",
+      "organization": "CIMMYT",
+      "traits": [
+        { "trait_name": "Stem rust (Ug99) resistance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Yellow rust resistance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Improve", "priority_level": "Medium" },
+        { "trait_name": "Bread-making quality", "requirement": "Essential: Maintain", "priority_level": "Medium" }
+      ],
+      "priority_level": "High",
+      "status": "Active",
+      "breeding_pipeline": true
+    },
+    {
+      "tpp_id": "TPP-KEN-SOR-001",
+      "crop": "Sorghum",
+      "tpp_name": "Dual-purpose sorghum for semi-arid Kenya",
+      "target_country": "Kenya",
+      "market_segment": "SPMS-KEN-SOR-001",
+      "organization": "ICRISAT",
+      "traits": [
+        { "trait_name": "Drought tolerance", "requirement": "Essential: Improve", "priority_level": "High" },
+        { "trait_name": "Grain yield", "requirement": "Essential: Improve", "priority_level": "Medium" },
+        { "trait_name": "Tannin-free grain", "requirement": "Essential: Maintain", "priority_level": "Medium" },
+        { "trait_name": "Stalk sugar content", "requirement": "Nice to Have", "priority_level": "Low" }
+      ],
+      "priority_level": "Medium",
+      "status": "Active",
+      "breeding_pipeline": false
+    }
+  ]
+}

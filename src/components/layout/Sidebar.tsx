@@ -9,6 +9,10 @@ const dimensionLinks = [
   { to: '/scaling-opportunity', label: 'Scaling Opportunity' },
 ]
 
+const dataSourceLinks = [
+  { to: '/market-intelligence', label: 'GloMIP Market Intelligence' },
+]
+
 const domainLinks = [
   { to: '/domains/scaling-context', label: 'Scaling Context' },
   { to: '/domains/sector', label: 'Sector' },
@@ -64,6 +68,7 @@ export default function Sidebar() {
         Dashboard
       </NavLink>
       <SidebarSection title="Demand Dimensions" links={dimensionLinks} />
+      <SidebarSection title="Data Sources" links={dataSourceLinks} />
       <SidebarSection title="Data Domains" links={domainLinks} />
     </aside>
   )
