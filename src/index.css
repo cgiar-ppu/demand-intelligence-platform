@@ -1,0 +1,259 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 20% 97%;
+    --foreground: 250 30% 10%;
+    --card: 0 0% 99%;
+    --card-foreground: 250 30% 10%;
+    --popover: 0 0% 99%;
+    --popover-foreground: 250 30% 10%;
+    --primary: 160 50% 42%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 250 15% 95%;
+    --secondary-foreground: 250 20% 20%;
+    --muted: 250 15% 95%;
+    --muted-foreground: 250 10% 45%;
+    --accent: 220 55% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 10 70% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 250 15% 88%;
+    --input: 250 12% 92%;
+    --ring: 160 50% 42%;
+    --radius: 0.75rem;
+
+    --emerald: 160 50% 42%;
+    --emerald-foreground: 0 0% 100%;
+    --sky: 200 70% 50%;
+    --amber: 45 90% 55%;
+    --violet: 270 55% 55%;
+    --rose: 5 70% 50%;
+    --glass: 0 0% 100%;
+    --glass-border: 0 0% 0%;
+    --nav-bg: 0 0% 100%;
+
+    --signal-high: 0 85% 55%;
+    --signal-medium: 45 95% 55%;
+    --signal-low: 145 65% 45%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 250 30% 7%;
+    --foreground: 250 10% 95%;
+    --card: 0 0% 100%;
+    --card-foreground: 250 10% 95%;
+    --popover: 250 25% 10%;
+    --popover-foreground: 250 10% 95%;
+    --primary: 160 50% 42%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 250 20% 15%;
+    --secondary-foreground: 250 10% 95%;
+    --muted: 250 20% 15%;
+    --muted-foreground: 250 10% 60%;
+    --accent: 220 55% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 5 70% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 100%;
+    --input: 0 0% 100%;
+    --ring: 160 50% 42%;
+    --glass: 0 0% 100%;
+    --glass-border: 0 0% 100%;
+    --nav-bg: 250 30% 6%;
+
+    --signal-high: 0 85% 55%;
+    --signal-medium: 45 95% 55%;
+    --signal-low: 145 65% 45%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: hsl(var(--glass) / 0.7);
+    backdrop-filter: blur(16px);
+    border: 1px solid hsl(var(--glass-border) / 0.08);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+  }
+
+  .dark .glass-card {
+    background: hsl(var(--glass) / 0.04);
+    border-color: hsl(var(--glass-border) / 0.1);
+  }
+
+  .glass-nav {
+    background: hsl(var(--nav-bg) / 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid hsl(var(--glass-border) / 0.08);
+  }
+
+  .dark .glass-nav {
+    border-bottom-color: hsl(var(--glass-border) / 0.1);
+  }
+
+  .score-badge {
+    @apply inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-bold;
+    background: hsl(var(--emerald) / 0.1);
+    color: hsl(var(--emerald));
+  }
+  .score-badge-demand {
+    background: hsl(var(--sky) / 0.1);
+    color: hsl(var(--sky));
+  }
+  .score-badge-supply {
+    background: hsl(var(--violet) / 0.1);
+    color: hsl(var(--violet));
+  }
+  .score-badge-gap-critical {
+    background: hsl(var(--rose) / 0.1);
+    color: hsl(var(--rose));
+  }
+
+  .chip {
+    @apply px-4 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-all;
+    border: 1px solid hsl(var(--glass-border) / 0.08);
+    background: transparent;
+    color: hsl(var(--muted-foreground));
+  }
+  .chip:hover {
+    border-color: hsl(var(--primary));
+    color: hsl(var(--primary));
+  }
+  .chip-active {
+    @apply bg-primary text-primary-foreground;
+    border-color: hsl(var(--primary));
+  }
+
+  .form-input {
+    @apply w-full rounded-xl border bg-background text-foreground text-sm outline-none;
+    border-color: hsl(var(--input));
+    padding: 0.75rem 1rem;
+  }
+  .form-input:focus {
+    @apply ring-2 ring-primary/30;
+  }
+
+  /* Signal pulse animations */
+  @keyframes signal-pulse-high {
+    0%, 100% { box-shadow: 0 0 4px 2px hsl(var(--signal-high) / 0.6); }
+    50% { box-shadow: 0 0 12px 6px hsl(var(--signal-high) / 0.3); }
+  }
+  @keyframes signal-pulse-medium {
+    0%, 100% { box-shadow: 0 0 4px 2px hsl(var(--signal-medium) / 0.5); }
+    50% { box-shadow: 0 0 10px 5px hsl(var(--signal-medium) / 0.25); }
+  }
+  @keyframes signal-pulse-low {
+    0%, 100% { box-shadow: 0 0 3px 1px hsl(var(--signal-low) / 0.4); }
+    50% { box-shadow: 0 0 8px 4px hsl(var(--signal-low) / 0.2); }
+  }
+
+  .signal-high {
+    background: hsl(var(--signal-high));
+    animation: signal-pulse-high 2s ease-in-out infinite;
+  }
+  .signal-medium {
+    background: hsl(var(--signal-medium));
+    animation: signal-pulse-medium 2.5s ease-in-out infinite;
+  }
+  .signal-low {
+    background: hsl(var(--signal-low));
+    animation: signal-pulse-low 3s ease-in-out infinite;
+  }
+
+  /* SVG map marker glow pulses — uses opacity animation since box-shadow doesn't work in SVG */
+  @keyframes map-glow-high {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 0.55; }
+  }
+  @keyframes map-glow-medium {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.5; }
+  }
+  @keyframes map-glow-low {
+    0%, 100% { opacity: 0.75; }
+    50% { opacity: 0.5; }
+  }
+  .map-pulse-high {
+    animation: map-glow-high 1.8s ease-in-out infinite;
+  }
+  .map-pulse-medium {
+    animation: map-glow-medium 2.2s ease-in-out infinite;
+  }
+  .map-pulse-low {
+    animation: map-glow-low 2.8s ease-in-out infinite;
+  }
+
+  /* Panel transitions */
+  .panel-collapsed {
+    opacity: 0.4;
+    filter: blur(2px);
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .panel-expanded {
+    opacity: 1;
+    filter: blur(0);
+    pointer-events: auto;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Chart styling */
+  .chart-container {
+    @apply w-full;
+    min-height: 200px;
+  }
+  .chart-container text {
+    font-size: 12px !important;
+  }
+
+  /* Scrollbar styling */
+  .custom-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.2);
+    border-radius: 4px;
+  }
+  .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.4);
+  }
+}
