@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  Legend
+  Legend, Cell,
 } from "recharts";
 import { masterData, COUNTRIES, type Innovation } from "@/lib/data";
 import { DomainCharts, DOMAINS } from "@/components/DomainCharts";
@@ -31,6 +31,19 @@ function MiniStat({ label, value, color }: { label: string; value: number; color
 
 const INNOVATION_NAMES = [...new Set(masterData.map(d => d.innovation_name))].sort();
 
+// Colors for 9 Domain→Dimension interactions
+const INTERACTION_COLORS: Record<string, string> = {
+  "Ctx→Geo": "#0d9488",
+  "Sec→Dem": "#f59e0b",
+  "Stk→Dem": "#f59e0b",
+  "Stk→Gaps": "#f43f5e",
+  "Env→Feas": "#0ea5e9",
+  "Res→Feas": "#0ea5e9",
+  "Mkt→Feas": "#0ea5e9",
+  "Mkt→Gaps": "#f43f5e",
+  "Port→Sup": "#8b5cf6",
+};
+
 const Analysis = () => {
   const [country, setCountry] = useState("all");
   const [innovationFilter, setInnovationFilter] = useState("all");
@@ -43,38 +56,48 @@ const Analysis = () => {
     return masterData.filter(d => {
       const matchCountry = country === "all" || d.country === country;
       const matchInnovation = innovationFilter === "all" || d.innovation_name === innovationFilter;
-      const matchSearch = !search || 
-        d.innovation_name.toLowerCase().includes(search.toLowerCase()) || 
+      const matchSearch = !search ||
+        d.innovation_name.toLowerCase().includes(search.toLowerCase()) ||
         d.country.toLowerCase().includes(search.toLowerCase());
       return matchCountry && matchInnovation && matchSearch;
     });
   }, [country, innovationFilter, search]);
 
+  // 5-Dimension Alignment Radar
   const radarData = [
-    { axis: "Need", value: avg(data, "need_score") },
-    { axis: "Supply", value: avg(data, "supply_score") },
-    { axis: "Eff. Demand", value: avg(data, "effective_demand_score") },
-    { axis: "Scaling Opp.", value: avg(data, "scaling_opportunity_score") },
+    { axis: "Geo & Priority", value: avg(data, "geography_priority_score") },
+    { axis: "Demand Signals", value: avg(data, "demand_signals_score") },
+    { axis: "Innov. Supply", value: avg(data, "innovation_supply_score") },
+    { axis: "Demand Gaps (inv.)", value: +(10 - avg(data, "demand_gaps_score")).toFixed(1) },
+    { axis: "Inv. Feasibility", value: avg(data, "investment_feasibility_score") },
   ];
 
-  const nexusData = [
-    { axis: "Need/Supply", value: avg(data, "need_supply") },
-    { axis: "Demand/Scaling", value: avg(data, "demand_scaling") },
-    { axis: "Supply/Demand", value: avg(data, "supply_demand") },
-    { axis: "Supply/Scaling", value: avg(data, "supply_scaling") },
-    { axis: "Need/Scaling", value: avg(data, "need_scaling") },
-    { axis: "Scaling/Demand", value: avg(data, "scaling_demand") },
+  // 9 Domain→Dimension Interaction data
+  const interactionData = [
+    { name: "Ctx→Geo", value: avg(data, "context_geography"), color: "#0d9488" },
+    { name: "Sec→Dem", value: avg(data, "sector_demand"), color: "#f59e0b" },
+    { name: "Stk→Dem", value: avg(data, "stakeholder_demand"), color: "#f59e0b" },
+    { name: "Stk→Gaps", value: avg(data, "stakeholder_gaps"), color: "#f43f5e" },
+    { name: "Env→Feas", value: avg(data, "enabling_feasibility"), color: "#0ea5e9" },
+    { name: "Res→Feas", value: avg(data, "resource_feasibility"), color: "#0ea5e9" },
+    { name: "Mkt→Feas", value: avg(data, "market_feasibility"), color: "#0ea5e9" },
+    { name: "Mkt→Gaps", value: avg(data, "market_gaps"), color: "#f43f5e" },
+    { name: "Port→Sup", value: avg(data, "portfolio_supply"), color: "#8b5cf6" },
   ];
 
-  const countryGapData = COUNTRIES.map((c) => {
+  // Country comparison by 3 main dimensions
+  const countryDimData = COUNTRIES.map((c) => {
     const cd = masterData.filter((d) => d.country === c);
-    const n = avg(cd, "need_score");
-    const d = avg(cd, "effective_demand_score");
-    const s = avg(cd, "supply_score");
-    return { country: c, Need: n, Demand: d, Supply: s, gap: +(n - d).toFixed(1) };
+    return {
+      country: c,
+      "Demand Sig.": avg(cd, "demand_signals_score"),
+      "Innov. Supply": avg(cd, "innovation_supply_score"),
+      "Inv. Feasib.": avg(cd, "investment_feasibility_score"),
+    };
   });
 
-  const topInnovations = [...data].sort((a, b) => (b.need_score - b.effective_demand_score) - (a.need_score - a.effective_demand_score)).slice(0, 5);
+  // Top scaling opportunities (highest scaling_opportunity_score)
+  const topScaling = [...data].sort((a, b) => b.scaling_opportunity_score - a.scaling_opportunity_score).slice(0, 5);
 
   const handleInnovationClick = (item: Innovation) => {
     setSelectedInnovation(item);
@@ -88,16 +111,18 @@ const Analysis = () => {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="inline-block h-2 w-2 rounded-full bg-sky" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-sky">Analytical Engine</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-sky">Demand Signal Analysis</span>
             </div>
-            <h2 className="text-3xl md:text-4xl tracking-tight">Advanced Analysis</h2>
-            <p className="text-sm text-muted-foreground mt-1">Deep multi-dimensional analysis and cross-country comparisons</p>
+            <h2 className="text-3xl md:text-4xl tracking-tight">Framework Analysis</h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              7&#x2192;5&#x2192;1 Demand Signaling Framework — dimension alignment, domain interactions &amp; country comparisons
+            </p>
           </div>
           <div className="flex items-center gap-3 flex-wrap">
             <div className="flex gap-6 mr-4">
-              <MiniStat label="Avg Need" value={avg(data, "need_score")} color="hsl(var(--emerald))" />
-              <MiniStat label="Avg Supply" value={avg(data, "supply_score")} color="hsl(var(--violet))" />
-              <MiniStat label="Avg Demand" value={avg(data, "effective_demand_score")} color="hsl(var(--sky))" />
+              <MiniStat label="Geo Priority" value={avg(data, "geography_priority_score")} color="#0d9488" />
+              <MiniStat label="Demand Sig." value={avg(data, "demand_signals_score")} color="#f59e0b" />
+              <MiniStat label="Inv. Supply" value={avg(data, "innovation_supply_score")} color="#8b5cf6" />
             </div>
             <div className="relative">
               <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -133,27 +158,46 @@ const Analysis = () => {
 
         {/* Radar Charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          {/* 5-Dimension Alignment Radar */}
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="glass-card !p-4">
-            <h3 className="text-sm font-display mb-2">Core Maturity Radar</h3>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-1 h-5 rounded-full" style={{ background: "#0f766e" }} />
+              <h3 className="text-sm font-display">5-Dimension Alignment Radar</h3>
+            </div>
+            <p className="text-[10px] text-muted-foreground mb-2">
+              Demand Gaps axis is inverted — higher = fewer gaps = better alignment
+            </p>
             <ResponsiveContainer width="100%" height={260}>
               <RadarChart data={radarData}>
                 <PolarGrid stroke="hsl(var(--border))" />
-                <PolarAngleAxis dataKey="axis" tick={{ fontSize: 11 }} />
-                <PolarRadiusAxis domain={[0, 10]} tick={{ fontSize: 10 }} />
-                <Radar dataKey="value" stroke="#10b981" fill="#10b981" fillOpacity={0.15} strokeWidth={2.5} dot={{ r: 4, fill: "#10b981" }} />
+                <PolarAngleAxis dataKey="axis" tick={{ fontSize: 10 }} />
+                <PolarRadiusAxis domain={[0, 10]} tick={{ fontSize: 9 }} />
+                <Radar dataKey="value" stroke="#0f766e" fill="#0f766e" fillOpacity={0.18} strokeWidth={2.5} dot={{ r: 4, fill: "#0f766e" }} />
               </RadarChart>
             </ResponsiveContainer>
           </motion.div>
 
+          {/* 9 Domain→Dimension Interaction Chart */}
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="glass-card !p-4">
-            <h3 className="text-sm font-display mb-2">Strategic Interaction Nexus</h3>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-1 h-5 rounded-full" style={{ background: "#8b5cf6" }} />
+              <h3 className="text-sm font-display">Domain&#x2192;Dimension Interactions</h3>
+            </div>
+            <p className="text-[10px] text-muted-foreground mb-2">
+              9 causal pathways: how 7 data domains drive the 5 signaling dimensions
+            </p>
             <ResponsiveContainer width="100%" height={260}>
-              <RadarChart data={nexusData}>
-                <PolarGrid stroke="hsl(var(--border))" />
-                <PolarAngleAxis dataKey="axis" tick={{ fontSize: 10 }} />
-                <PolarRadiusAxis domain={[0, 10]} tick={{ fontSize: 10 }} />
-                <Radar dataKey="value" stroke="#0ea5e9" fill="#0ea5e9" fillOpacity={0.15} strokeWidth={2.5} dot={{ r: 4, fill: "#0ea5e9" }} />
-              </RadarChart>
+              <BarChart data={interactionData} layout="vertical" margin={{ left: 10, right: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis type="number" domain={[0, 10]} tick={{ fontSize: 10 }} />
+                <YAxis type="category" dataKey="name" width={68} tick={{ fontSize: 9 }} />
+                <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 12, fontSize: 12 }} />
+                <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                  {interactionData.map((entry, i) => (
+                    <Cell key={i} fill={entry.color} />
+                  ))}
+                </Bar>
+              </BarChart>
             </ResponsiveContainer>
           </motion.div>
         </div>
@@ -161,41 +205,47 @@ const Analysis = () => {
         {/* Country Comparison */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="glass-card !p-4 md:col-span-2">
-            <h3 className="text-sm font-display mb-2">Country Pillar Comparison</h3>
-            <ResponsiveContainer width="100%" height={260}>
-              <BarChart data={countryGapData} barGap={2}>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-1 h-5 rounded-full" style={{ background: "#0ea5e9" }} />
+              <h3 className="text-sm font-display">Country Dimension Comparison</h3>
+            </div>
+            <p className="text-[10px] text-muted-foreground mb-3">Demand Signals, Innovation Supply, and Investment Feasibility by country</p>
+            <ResponsiveContainer width="100%" height={240}>
+              <BarChart data={countryDimData} barGap={2}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis dataKey="country" tick={{ fontSize: 10 }} />
                 <YAxis domain={[0, 10]} tick={{ fontSize: 10 }} />
                 <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 12, fontSize: 12 }} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
-                <Bar dataKey="Need" fill="#10b981" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Demand" fill="#0ea5e9" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Supply" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+                <Legend wrapperStyle={{ fontSize: 10 }} />
+                <Bar dataKey="Demand Sig." fill="#f59e0b" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Innov. Supply" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Inv. Feasib." fill="#0ea5e9" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="glass-card !p-4">
-            <h3 className="text-sm font-display mb-3">Highest Strategic Gaps</h3>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-1 h-5 rounded-full" style={{ background: "#0f766e" }} />
+              <h3 className="text-sm font-display">Top Scaling Opportunities</h3>
+            </div>
             <div className="space-y-2">
-              {topInnovations.map((item, i) => {
-                const gap = item.need_score - item.effective_demand_score;
-                return (
-                  <div
-                    key={i}
-                    className="flex items-center justify-between py-2 border-b last:border-0 cursor-pointer hover:bg-primary/5 rounded-lg px-2 transition"
-                    style={{ borderColor: "hsl(var(--glass-border) / 0.04)" }}
-                    onClick={() => handleInnovationClick(item)}
-                  >
-                    <div>
-                      <p className="text-sm font-semibold">{item.innovation_name}</p>
-                      <p className="text-[10px] text-muted-foreground">{item.country}</p>
-                    </div>
-                    <span className={`text-sm font-display font-bold ${gap > 2 ? "text-rose" : "text-amber"}`}>+{gap}</span>
+              {topScaling.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between py-2 border-b last:border-0 cursor-pointer hover:bg-primary/5 rounded-lg px-2 transition"
+                  style={{ borderColor: "hsl(var(--glass-border) / 0.04)" }}
+                  onClick={() => handleInnovationClick(item)}
+                >
+                  <div>
+                    <p className="text-sm font-semibold">{item.innovation_name}</p>
+                    <p className="text-[10px] text-muted-foreground">{item.country}</p>
                   </div>
-                );
-              })}
+                  <span className="text-sm font-display font-bold" style={{ color: "#0f766e" }}>
+                    {item.scaling_opportunity_score}
+                  </span>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -234,7 +284,7 @@ const Analysis = () => {
               <span className="text-xs font-bold text-muted-foreground [writing-mode:vertical-lr] rotate-180">
                 Deep Analysis
               </span>
-              <span className="text-muted-foreground text-xs">→</span>
+              <span className="text-muted-foreground text-xs">&#x2192;</span>
             </div>
           </button>
         ) : (

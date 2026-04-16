@@ -257,7 +257,7 @@ export function InnovationDemandMap({
                 {getSignalLabel(getSignalLevel(tooltip.innovation))}
               </span>
               <span className="text-xs text-muted-foreground">
-                Gap: {tooltip.innovation.need_score - tooltip.innovation.effective_demand_score}
+                Gaps: {tooltip.innovation.demand_gaps_score}/10
               </span>
             </div>
             <p className="text-[10px] text-muted-foreground mt-1">{tooltip.innovation.evidence_date}</p>
