@@ -34,6 +34,7 @@ const INNOVATION_NAMES = [...new Set(masterData.map(d => d.innovation_name))].so
 const Analysis = () => {
   const [country, setCountry] = useState("all");
   const [innovationFilter, setInnovationFilter] = useState("all");
+  const [search, setSearch] = useState("");
   const [activeDomain, setActiveDomain] = useState("scaling");
   const [selectedInnovation, setSelectedInnovation] = useState<Innovation | null>(null);
   const [advancedExpanded, setAdvancedExpanded] = useState(false);
@@ -42,9 +43,12 @@ const Analysis = () => {
     return masterData.filter(d => {
       const matchCountry = country === "all" || d.country === country;
       const matchInnovation = innovationFilter === "all" || d.innovation_name === innovationFilter;
-      return matchCountry && matchInnovation;
+      const matchSearch = !search || 
+        d.innovation_name.toLowerCase().includes(search.toLowerCase()) || 
+        d.country.toLowerCase().includes(search.toLowerCase());
+      return matchCountry && matchInnovation && matchSearch;
     });
-  }, [country, innovationFilter]);
+  }, [country, innovationFilter, search]);
 
   const radarData = [
     { axis: "Need", value: avg(data, "need_score") },
@@ -94,6 +98,17 @@ const Analysis = () => {
               <MiniStat label="Avg Need" value={avg(data, "need_score")} color="hsl(var(--emerald))" />
               <MiniStat label="Avg Supply" value={avg(data, "supply_score")} color="hsl(var(--violet))" />
               <MiniStat label="Avg Demand" value={avg(data, "effective_demand_score")} color="hsl(var(--sky))" />
+            </div>
+            <div className="relative">
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search..."
+                className="w-40 rounded-xl border border-input bg-background pl-9 pr-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/30 transition"
+              />
             </div>
             <Select value={country} onValueChange={setCountry}>
               <SelectTrigger className="w-[160px] rounded-xl">
