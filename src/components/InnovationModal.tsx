@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import type { Innovation } from "@/lib/data";
+import { getSignalLevel, getSignalColor, getSignalLabel } from "@/lib/data";
 
 interface Props {
   item: Innovation | null;
@@ -13,12 +14,12 @@ function ScoreTier(score: number): { label: string; color: string } {
   return { label: "SCALED", color: "hsl(var(--emerald))" };
 }
 
-function PillarCard({ label, score, accent }: { label: string; score: number; accent?: string }) {
+function DimCard({ label, score, color }: { label: string; score: number; color?: string }) {
   const tier = ScoreTier(score);
   return (
     <div className="glass-card !p-4">
-      <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{label}</p>
-      <p className="text-2xl font-display mt-1" style={{ color: accent || tier.color }}>
+      <p className="text-[10px] text-muted-foreground uppercase tracking-wider leading-tight">{label}</p>
+      <p className="text-2xl font-display mt-1" style={{ color: color || tier.color }}>
         {score}<span className="text-sm text-muted-foreground">/10</span>
       </p>
       <span className="text-[9px] font-bold uppercase tracking-wide mt-1 inline-block" style={{ color: tier.color }}>{tier.label}</span>
@@ -26,32 +27,33 @@ function PillarCard({ label, score, accent }: { label: string; score: number; ac
   );
 }
 
-function NexusBar({ label, value }: { label: string; value: number }) {
+function InteractionBar({ label, value, color }: { label: string; value: number; color?: string }) {
   const pct = (value / 10) * 100;
   const tier = ScoreTier(value);
+  const barColor = color || tier.color;
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs text-muted-foreground w-28 shrink-0 text-right">{label}</span>
+      <span className="text-xs text-muted-foreground w-32 shrink-0 text-right">{label}</span>
       <div className="flex-1 h-2 rounded-full bg-muted/50 overflow-hidden">
-        <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: tier.color }} />
+        <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: barColor }} />
       </div>
-      <span className="text-xs font-bold w-8" style={{ color: tier.color }}>{value}</span>
+      <span className="text-xs font-bold w-8" style={{ color: barColor }}>{value}</span>
     </div>
   );
 }
 
 export function InnovationModal({ item, onClose }: Props) {
   if (!item) return null;
-  const gap = item.need_score - item.effective_demand_score;
+  const signal = getSignalLevel(item);
 
   const domains = [
     { label: "Scaling Context", score: item.domain_scaling_context },
-    { label: "Sector Readiness", score: item.domain_sector },
-    { label: "Stakeholders & Networks", score: item.domain_stakeholders },
-    { label: "Enabling Environment", score: item.domain_enabling_env },
-    { label: "Resource & Investment", score: item.domain_resource_ecosystem },
-    { label: "Market Intelligence", score: item.domain_market_intelligence },
-    { label: "Innovation Portfolio", score: item.domain_innovation_portfolio },
+    { label: "Sector", score: item.domain_sector },
+    { label: "Stakeholders", score: item.domain_stakeholders },
+    { label: "Enabling Env.", score: item.domain_enabling_env },
+    { label: "Resources", score: item.domain_resource_investment },
+    { label: "Market Intel.", score: item.domain_market_intelligence },
+    { label: "Portfolio", score: item.domain_innovation_portfolio },
   ];
 
   return (
@@ -72,44 +74,50 @@ export function InnovationModal({ item, onClose }: Props) {
         >
           <div className="flex justify-between items-start mb-6">
             <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className={`h-3 w-3 rounded-full ${signal === "high" ? "signal-high" : signal === "medium" ? "signal-medium" : "signal-low"}`} />
+                <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: getSignalColor(signal) }}>
+                  {getSignalLabel(signal)} Demand Gap Signal
+                </span>
+              </div>
               <h2 className="text-2xl font-display">{item.innovation_name}</h2>
               <p className="text-muted-foreground text-sm mt-1">{item.country} · {item.evidence_date}</p>
             </div>
-            <button onClick={onClose} className="text-muted-foreground hover:text-foreground text-xl">✕</button>
+            <button onClick={onClose} className="text-muted-foreground hover:text-foreground text-xl">&#x2715;</button>
           </div>
 
-          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">4 Core Pillars</h4>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-            <PillarCard label="System Need" score={item.need_score} />
-            <PillarCard label="Effective Demand" score={item.effective_demand_score} />
-            <PillarCard label="Supply Score" score={item.supply_score} />
-            <PillarCard label="Scaling Opportunity" score={item.scaling_opportunity_score} />
+          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">5 Demand Signaling Dimensions</h4>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+            <DimCard label="Geography & Priority" score={item.geography_priority_score} color="#0d9488" />
+            <DimCard label="Demand Signals" score={item.demand_signals_score} color="#f59e0b" />
+            <DimCard label="Innovation Supply" score={item.innovation_supply_score} color="#8b5cf6" />
+            <DimCard label="Demand Gaps (inverse)" score={item.demand_gaps_score} color={item.demand_gaps_score > 6 ? "#f43f5e" : item.demand_gaps_score >= 3 ? "#f59e0b" : "#10b981"} />
+            <DimCard label="Investment Feasibility" score={item.investment_feasibility_score} color="#0ea5e9" />
+            <DimCard label="Scaling Opportunity" score={item.scaling_opportunity_score} color="#0f766e" />
           </div>
 
-          <div className="glass-card !p-4 mb-6 flex items-center justify-between">
-            <span className="text-sm font-semibold">Strategic Gap (Need − Demand)</span>
-            <span className={`text-2xl font-display ${gap > 2 ? "text-rose" : "text-emerald"}`}>{gap > 0 ? `+${gap}` : gap}</span>
+          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">9 Domain&#x2192;Dimension Interactions</h4>
+          <div className="glass-card !p-5 mb-4 space-y-2">
+            <InteractionBar label="Ctx&#x2192;Geography" value={item.context_geography} color="#0d9488" />
+            <InteractionBar label="Sec&#x2192;Demand Sig." value={item.sector_demand} color="#f59e0b" />
+            <InteractionBar label="Stk&#x2192;Demand Sig." value={item.stakeholder_demand} color="#f59e0b" />
+            <InteractionBar label="Stk&#x2192;Demand Gaps" value={item.stakeholder_gaps} color="#f43f5e" />
+            <InteractionBar label="Env&#x2192;Feasibility" value={item.enabling_feasibility} color="#0ea5e9" />
+            <InteractionBar label="Res&#x2192;Feasibility" value={item.resource_feasibility} color="#0ea5e9" />
+            <InteractionBar label="Mkt&#x2192;Feasibility" value={item.market_feasibility} color="#0ea5e9" />
+            <InteractionBar label="Mkt&#x2192;Demand Gaps" value={item.market_gaps} color="#f43f5e" />
+            <InteractionBar label="Port&#x2192;Supply" value={item.portfolio_supply} color="#8b5cf6" />
           </div>
 
-          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">6 Interaction Pillars (Strategic Nexus)</h4>
-          <div className="glass-card !p-5 mb-6 space-y-2.5">
-            <NexusBar label="Need / Supply" value={item.need_supply} />
-            <NexusBar label="Demand / Scaling" value={item.demand_scaling} />
-            <NexusBar label="Supply / Demand" value={item.supply_demand} />
-            <NexusBar label="Supply / Scaling" value={item.supply_scaling} />
-            <NexusBar label="Need / Scaling" value={item.need_scaling} />
-            <NexusBar label="Scaling / Demand" value={item.scaling_demand} />
-          </div>
-
-          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">7 Scaling Domains</h4>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">7 Data Signal Domains</h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
             {domains.map((d) => (
-              <PillarCard key={d.label} label={d.label} score={d.score} />
+              <DimCard key={d.label} label={d.label} score={d.score} />
             ))}
           </div>
 
           <div className="rounded-2xl border border-sky/20 bg-sky/5 p-5">
-            <h4 className="text-sm font-bold text-sky mb-3">Evidence Source & Traceability</h4>
+            <h4 className="text-sm font-bold text-sky mb-3">Evidence Source &amp; Traceability</h4>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <span className="text-xs text-muted-foreground uppercase">Primary Source</span>
