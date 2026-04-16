@@ -17,7 +17,7 @@ export function InnovationList({ data, selectedInnovation, onSelect }: Props) {
       {data.map((item, i) => {
         const signal = getSignalLevel(item);
         const isSelected = selectedInnovation?.innovation_name === item.innovation_name && selectedInnovation?.country === item.country;
-        const gap = item.need_score - item.effective_demand_score;
+        const gapScore = item.demand_gaps_score;
 
         return (
           <motion.button
@@ -47,8 +47,8 @@ export function InnovationList({ data, selectedInnovation, onSelect }: Props) {
                   </span>
                 </div>
               </div>
-              <span className={`text-xs font-bold mt-1 ${gap > 2 ? "text-rose" : gap > 0 ? "text-amber" : "text-emerald"}`}>
-                {gap > 0 ? `+${gap}` : gap}
+              <span className={`text-xs font-bold mt-1 ${gapScore > 6 ? "text-rose" : gapScore >= 3 ? "text-amber" : "text-emerald"}`}>
+                {gapScore.toFixed(1)}
               </span>
             </div>
           </motion.button>

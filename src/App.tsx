@@ -8,6 +8,7 @@ import Index from "./pages/Index.tsx";
 import Analysis from "./pages/Analysis.tsx";
 import Ingestion from "./pages/Ingestion.tsx";
 import Extract from "./pages/Extract.tsx";
+import Network from "./pages/Network.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/analysis" element={<Analysis />} />
+          <Route path="/network" element={<Network />} />
           <Route path="/ingestion" element={<Ingestion />} />
           <Route path="/extract" element={<Extract />} />
           <Route path="*" element={<NotFound />} />
