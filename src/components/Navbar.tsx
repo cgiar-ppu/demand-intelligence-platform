@@ -47,6 +47,7 @@ export function Navbar() {
         {navLink("/network", "Signal Network")}
         {navLink("/ingestion", "Data Ingestion")}
         {navLink("/extract", "Framework Guide")}
+        {navLink("/framework", "Framework Map")}
       </div>
       <button onClick={toggle} className="text-lg bg-transparent border-none cursor-pointer">
         {dark ? "☀️" : "🌙"}
