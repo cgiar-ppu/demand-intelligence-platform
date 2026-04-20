@@ -13,6 +13,10 @@ const dataSourceLinks = [
   { to: '/market-intelligence', label: 'GloMIP Market Intelligence' },
 ]
 
+const frameworkLinks = [
+  { to: '/framework', label: 'Framework Map' },
+]
+
 const domainLinks = [
   { to: '/domains/scaling-context', label: 'Scaling Context' },
   { to: '/domains/sector', label: 'Sector' },
@@ -68,6 +72,7 @@ export default function Sidebar() {
         Dashboard
       </NavLink>
       <SidebarSection title="Demand Dimensions" links={dimensionLinks} />
+      <SidebarSection title="Framework" links={frameworkLinks} />
       <SidebarSection title="Data Sources" links={dataSourceLinks} />
       <SidebarSection title="Data Domains" links={domainLinks} />
     </aside>

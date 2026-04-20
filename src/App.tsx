@@ -18,6 +18,7 @@ import ResourceInvestment from './components/domains/ResourceInvestment'
 import MarketIntelligence from './components/domains/MarketIntelligence'
 import InnovationPortfolio from './components/domains/InnovationPortfolio'
 import GloMIPExplorer from './pages/GloMIPExplorer'
+import Framework from './pages/Framework'
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path="/domains/market-intelligence" element={<MarketIntelligence />} />
             <Route path="/domains/innovation-portfolio" element={<InnovationPortfolio />} />
             <Route path="/market-intelligence" element={<GloMIPExplorer />} />
+            <Route path="/framework" element={<Framework />} />
           </Routes>
         </main>
       </div>
