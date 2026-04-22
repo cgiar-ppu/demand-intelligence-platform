@@ -1,56 +1,34 @@
-import { Routes, Route } from 'react-router-dom'
-import Header from './components/layout/Header'
-import Sidebar from './components/layout/Sidebar'
-import Footer from './components/layout/Footer'
-import Dashboard from './pages/Dashboard'
-import DemandExplorer from './pages/DemandExplorer'
-import GeographyPriority from './pages/GeographyPriority'
-import DemandSignals from './pages/DemandSignals'
-import InnovationSupply from './pages/InnovationSupply'
-import DemandGaps from './pages/DemandGaps'
-import InvestmentFeasibility from './pages/InvestmentFeasibility'
-import ScalingOpportunity from './pages/ScalingOpportunity'
-import ScalingContext from './components/domains/ScalingContext'
-import Sector from './components/domains/Sector'
-import Stakeholders from './components/domains/Stakeholders'
-import EnablingEnvironment from './components/domains/EnablingEnvironment'
-import ResourceInvestment from './components/domains/ResourceInvestment'
-import MarketIntelligence from './components/domains/MarketIntelligence'
-import InnovationPortfolio from './components/domains/InnovationPortfolio'
-import GloMIPExplorer from './pages/GloMIPExplorer'
-import Framework from './pages/Framework'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Navbar } from "@/components/Navbar";
+import Index from "./pages/Index.tsx";
+import Analysis from "./pages/Analysis.tsx";
+import Ingestion from "./pages/Ingestion.tsx";
+import Extract from "./pages/Extract.tsx";
+import NotFound from "./pages/NotFound.tsx";
 
-function App() {
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <div className="flex flex-1">
-        <Sidebar />
-        <main className="flex-1 p-6 overflow-auto">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/explorer" element={<DemandExplorer />} />
-            <Route path="/geography-priority" element={<GeographyPriority />} />
-            <Route path="/demand-signals" element={<DemandSignals />} />
-            <Route path="/innovation-supply" element={<InnovationSupply />} />
-            <Route path="/demand-gaps" element={<DemandGaps />} />
-            <Route path="/investment-feasibility" element={<InvestmentFeasibility />} />
-            <Route path="/scaling-opportunity" element={<ScalingOpportunity />} />
-            <Route path="/domains/scaling-context" element={<ScalingContext />} />
-            <Route path="/domains/sector" element={<Sector />} />
-            <Route path="/domains/stakeholders" element={<Stakeholders />} />
-            <Route path="/domains/enabling-environment" element={<EnablingEnvironment />} />
-            <Route path="/domains/resource-investment" element={<ResourceInvestment />} />
-            <Route path="/domains/market-intelligence" element={<MarketIntelligence />} />
-            <Route path="/domains/innovation-portfolio" element={<InnovationPortfolio />} />
-            <Route path="/market-intelligence" element={<GloMIPExplorer />} />
-            <Route path="/framework" element={<Framework />} />
-          </Routes>
-        </main>
-      </div>
-      <Footer />
-    </div>
-  )
-}
+const queryClient = new QueryClient();
 
-export default App
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/analysis" element={<Analysis />} />
+          <Route path="/ingestion" element={<Ingestion />} />
+          <Route path="/extract" element={<Extract />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
+
+export default App;
