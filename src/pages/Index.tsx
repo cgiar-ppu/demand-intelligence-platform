@@ -4,6 +4,8 @@ import { masterData, COUNTRIES, type Innovation, type CountryName, getSignalLeve
 import { InnovationDemandMap } from "@/components/InnovationDemandMap";
 import { InnovationList } from "@/components/InnovationList";
 import { AdvancedAnalysisPanel } from "@/components/AdvancedAnalysisPanel";
+import { FrameworkDiagram } from "@/components/FrameworkDiagram";
+import { SignalNetwork } from "@/components/SignalNetwork";
 import { generateInnovationReport } from "@/lib/generateReport";
 import {
   Select,
@@ -48,9 +50,17 @@ const Index = () => {
     setAdvancedExpanded(true);
   };
 
-  const avgNeed = +(filtered.reduce((a, b) => a + b.need_score, 0) / (filtered.length || 1)).toFixed(1);
-  const avgDemand = +(filtered.reduce((a, b) => a + b.effective_demand_score, 0) / (filtered.length || 1)).toFixed(1);
-  const avgGap = +(avgNeed - avgDemand).toFixed(1);
+  // KPI computations using new 5-dimension model
+  const totalCount = filtered.length;
+  const avgAlignment = +(
+    filtered.reduce((a, b) => a + b.scaling_opportunity_score, 0) / (filtered.length || 1)
+  ).toFixed(1);
+  const scalingOpps = filtered.filter((d) => d.scaling_opportunity_score >= 7).length;
+  const criticalGaps = filtered.filter((d) => getSignalLevel(d) === "high").length;
+  const effectiveDemand = filtered.filter(
+    (d) => d.demand_signals_score >= 7 && d.demand_gaps_score < 3 && d.investment_feasibility_score >= 6
+  ).length;
+
   const highSignals = filtered.filter((d) => getSignalLevel(d) === "high").length;
   const medSignals = filtered.filter((d) => getSignalLevel(d) === "medium").length;
   const lowSignals = filtered.filter((d) => getSignalLevel(d) === "low").length;
@@ -87,17 +97,17 @@ const Index = () => {
 
           {/* Signal summary */}
           <div className="hidden lg:flex items-center gap-3 ml-auto text-xs">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full signal-high" />
-              <span className="font-bold text-muted-foreground">{highSignals}</span>
+              <span className="font-bold text-muted-foreground">{highSignals} Critical</span>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full signal-medium" />
-              <span className="font-bold text-muted-foreground">{medSignals}</span>
+              <span className="font-bold text-muted-foreground">{medSignals} Moderate</span>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full signal-low" />
-              <span className="font-bold text-muted-foreground">{lowSignals}</span>
+              <span className="font-bold text-muted-foreground">{lowSignals} Managed</span>
             </div>
           </div>
         </div>
@@ -131,13 +141,13 @@ const Index = () => {
         {/* Column 2 — Insights & Reports */}
         <div className="flex-1 overflow-y-auto custom-scroll">
           <div className="p-4 space-y-4">
-            {/* KPI Strip */}
+            {/* KPI Strip — 5-Dimension Model */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-              <StatMini label="Innovations" value={String(filtered.length)} accent="primary" />
-              <StatMini label="Avg Need" value={String(avgNeed)} accent="emerald" />
-              <StatMini label="Avg Demand" value={String(avgDemand)} accent="sky" />
-              <StatMini label="Avg Gap" value={avgGap > 0 ? `+${avgGap}` : String(avgGap)} accent={avgGap > 1.5 ? "rose" : "emerald"} />
-              <StatMini label="Critical" value={String(highSignals)} accent="rose" />
+              <StatMini label="Innovations" value={String(totalCount)} accent="primary" />
+              <StatMini label="Avg Alignment" value={String(avgAlignment)} accent="emerald" />
+              <StatMini label="Scaling Opps." value={String(scalingOpps)} accent="sky" />
+              <StatMini label="Critical Gaps" value={String(criticalGaps)} accent="rose" />
+              <StatMini label="Effective Demand" value={String(effectiveDemand)} accent="violet" />
             </div>
 
             {/* Innovation Demand Map */}
@@ -145,7 +155,7 @@ const Index = () => {
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-sm font-display">Innovation Demand Map</h3>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-full">
-                  {filtered.length} signals
+                  {filtered.length} demand signals
                 </span>
               </div>
               <InnovationDemandMap
@@ -156,27 +166,132 @@ const Index = () => {
               />
             </div>
 
-            {/* Innovation Table */}
+            {/* 7→5→1 Framework Signal Map */}
+            <div className="glass-card !p-0 overflow-hidden">
+              <div
+                className="flex items-center justify-between px-4 py-3 border-b"
+                style={{ borderColor: "hsl(var(--glass-border) / 0.08)" }}
+              >
+                <div>
+                  <h3 className="text-sm font-display">7&#x2192;5&#x2192;1 Framework Signal Map</h3>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                    {selectedInnovation
+                      ? `Viewing: ${selectedInnovation.innovation_name}`
+                      : "Select an innovation to activate signal domains"}
+                  </p>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-full">
+                  7 Domains · 5 Dims
+                </span>
+              </div>
+              <div className="flex items-center justify-center p-4 bg-[#0a1628]/60" style={{ minHeight: 340 }}>
+                <FrameworkDiagram innovation={selectedInnovation} />
+              </div>
+              {/* Legend row */}
+              <div
+                className="flex flex-wrap items-center gap-x-4 gap-y-1.5 px-4 py-2.5 border-t"
+                style={{ borderColor: "hsl(var(--glass-border) / 0.08)" }}
+              >
+                {[
+                  { color: "#0d9488", label: "Scaling Context" },
+                  { color: "#f59e0b", label: "Sector" },
+                  { color: "#8b5cf6", label: "Stakeholders" },
+                  { color: "#6366f1", label: "Enabling Env." },
+                  { color: "#0ea5e9", label: "Resource & Invest." },
+                  { color: "#ec4899", label: "Market Intel." },
+                  { color: "#14b8a6", label: "Innov. Portfolio" },
+                ].map(({ color, label }) => (
+                  <div key={label} className="flex items-center gap-1.5">
+                    <span
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{ backgroundColor: color }}
+                    />
+                    <span className="text-[9px] font-semibold text-muted-foreground">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Domain Signal Network */}
+            <div className="glass-card !p-0 overflow-hidden">
+              <div
+                className="flex items-center justify-between px-4 py-3 border-b"
+                style={{ borderColor: "hsl(var(--glass-border) / 0.08)" }}
+              >
+                <div>
+                  <h3 className="text-sm font-display">Domain Signal Network</h3>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                    {selectedInnovation
+                      ? `Signals activated for: ${selectedInnovation.innovation_name}`
+                      : "Select an innovation to explore signals across 7 domains"}
+                  </p>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-full">
+                  7 → Themes → Indicators
+                </span>
+              </div>
+
+              <div className="p-3">
+                <SignalNetwork innovation={selectedInnovation} />
+              </div>
+
+              {/* Legend */}
+              <div
+                className="flex flex-wrap items-center gap-x-5 gap-y-1.5 px-4 py-2.5 border-t"
+                style={{ borderColor: "hsl(var(--glass-border) / 0.08)" }}
+              >
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
+                  <span className="text-[9px] font-semibold text-muted-foreground">Active (score ≥ 5)</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: "#334155" }} />
+                  <span className="text-[9px] font-semibold text-muted-foreground">Inactive (score &lt; 5)</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-5 h-0.5 rounded-full" style={{ background: "linear-gradient(to right, #6366f1, transparent)" }} />
+                  <span className="text-[9px] font-semibold text-muted-foreground">Active connection</span>
+                </div>
+                <div className="ml-auto flex items-center gap-3">
+                  {[
+                    { color: "#10b981", label: "Strong (≥7)" },
+                    { color: "#f59e0b", label: "Active (5-7)" },
+                    { color: "#f43f5e", label: "Weak (<5)" },
+                  ].map(({ color, label }) => (
+                    <div key={label} className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: color }} />
+                      <span className="text-[9px] font-semibold text-muted-foreground">{label}</span>
+                    </div>
+                  ))}
+                  <span className="text-[9px] text-muted-foreground">Arc score</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Intelligence Matrix */}
             <div className="glass-card !p-0 overflow-hidden">
               <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "hsl(var(--glass-border) / 0.08)" }}>
-                <h3 className="text-sm font-display">Intelligence Matrix</h3>
+                <div>
+                  <h3 className="text-sm font-display">Intelligence Matrix</h3>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">5-Dimension Demand Signaling Framework — 0-10 Scale</p>
+                </div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-full">
-                  0–10 Scale
+                  7&#x2192;5&#x2192;1
                 </span>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse text-sm">
                   <thead>
                     <tr className="border-b bg-muted/20" style={{ borderColor: "hsl(var(--glass-border) / 0.08)" }}>
-                      {["Signal", "Innovation", "Region", "Need", "Demand", "Supply", "Gap", "Report"].map((h) => (
-                        <th key={h} className="text-left text-[10px] uppercase text-muted-foreground py-2.5 px-3 font-bold tracking-wider">{h}</th>
+                      {["Signal", "Innovation", "Region", "Context", "Sector", "Stakeh.", "Enabling", "Resource", "Market", "Portfolio", "Report"].map((h) => (
+                        <th key={h} className="text-left text-[10px] uppercase text-muted-foreground py-2.5 px-3 font-bold tracking-wider whitespace-nowrap">{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {visibleInnovations.map((item) => {
-                      const gap = item.need_score - item.effective_demand_score;
                       const signal = getSignalLevel(item);
+                      const gapColor = item.demand_gaps_score > 6 ? "#f43f5e" : item.demand_gaps_score >= 3 ? "#f59e0b" : "#10b981";
                       return (
                         <tr
                           key={`${item.innovation_name}-${item.country}`}
@@ -187,24 +302,37 @@ const Index = () => {
                           <td className="py-2.5 px-3">
                             <span className={`h-2.5 w-2.5 rounded-full inline-block ${signal === "high" ? "signal-high" : signal === "medium" ? "signal-medium" : "signal-low"}`} />
                           </td>
-                          <td className="py-2.5 px-3 font-semibold">{item.innovation_name}</td>
+                          <td className="py-2.5 px-3 font-semibold max-w-[160px] truncate">{item.innovation_name}</td>
                           <td className="py-2.5 px-3">
                             <span className="text-xs bg-muted/50 px-2 py-0.5 rounded-md text-muted-foreground">{item.country}</span>
                           </td>
-                          <td className="py-2.5 px-3"><span className="score-badge">{item.need_score}</span></td>
-                          <td className="py-2.5 px-3"><span className="score-badge score-badge-demand">{item.effective_demand_score}</span></td>
-                          <td className="py-2.5 px-3"><span className="score-badge score-badge-supply">{item.supply_score}</span></td>
                           <td className="py-2.5 px-3">
-                            <span className={`text-xs font-bold ${gap > 2 ? "text-rose" : gap > 0 ? "text-amber" : "text-emerald"}`}>
-                              {gap > 0 ? `+${gap}` : gap}
-                            </span>
+                            <span className="text-xs font-bold" style={{ color: "#0d9488" }}>{item.domain_scaling_context}</span>
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <span className="text-xs font-bold" style={{ color: "#f59e0b" }}>{item.domain_sector}</span>
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <span className="text-xs font-bold" style={{ color: "#8b5cf6" }}>{item.domain_stakeholders}</span>
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <span className="text-xs font-bold" style={{ color: "#6366f1" }}>{item.domain_enabling_env}</span>
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <span className="text-xs font-bold" style={{ color: "#0ea5e9" }}>{item.domain_resource_investment}</span>
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <span className="text-xs font-bold" style={{ color: "#ec4899" }}>{item.domain_market_intelligence}</span>
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <span className="text-xs font-bold" style={{ color: "#14b8a6" }}>{item.domain_innovation_portfolio}</span>
                           </td>
                           <td className="py-2.5 px-3">
                             <button
                               onClick={(e) => { e.stopPropagation(); generateInnovationReport(item); }}
                               className="text-[10px] font-bold text-primary bg-primary/10 hover:bg-primary/20 px-2 py-0.5 rounded-full transition"
                             >
-                              ↓ PDF
+                              PDF
                             </button>
                           </td>
                         </tr>
@@ -241,9 +369,9 @@ const Index = () => {
             >
               <div className="panel-collapsed flex flex-col items-center gap-2">
                 <span className="text-xs font-bold text-muted-foreground [writing-mode:vertical-lr] rotate-180">
-                  Advanced Analysis
+                  Dimension Analysis
                 </span>
-                <span className="text-muted-foreground text-xs">→</span>
+                <span className="text-muted-foreground text-xs">&#x2192;</span>
               </div>
             </button>
           ) : (

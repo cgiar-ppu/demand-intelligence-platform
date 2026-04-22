@@ -31,12 +31,14 @@ function ChartCard({ children, className = "" }: { children: React.ReactNode; cl
 }
 
 // ==================== SCALING CONTEXT ====================
+// "Where does demand occur, and under what conditions?"
 function ScalingContextCharts({ data }: { data: Innovation[] }) {
   const d = useMemo(() => getScalingContextData(data), [data]);
   return (
     <>
       <ChartCard>
-        <ChartTitle title="Constraints vs Opportunities" badge="Scaling Context" />
+        <ChartTitle title="Constraints vs Opportunities" badge="Biophysical & Socio-Economic" />
+        <p className="text-xs text-muted-foreground mb-3">Geographies, value chains, and ecosystem conditions shaping where demand occurs.</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={d.constraintsVsOpportunities} barGap={2}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -50,18 +52,20 @@ function ScalingContextCharts({ data }: { data: Innovation[] }) {
       </ChartCard>
       <ChartCard>
         <ChartTitle title="Infrastructure Access (%)" badge="Coverage" />
+        <p className="text-xs text-muted-foreground mb-3">Physical infrastructure availability feeding into Geography &amp; Priority dimension.</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={d.infrastructureAccess} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
             <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11 }} />
             <YAxis type="category" dataKey="name" width={100} tick={{ fontSize: 11 }} />
             <Tooltip contentStyle={TOOLTIP_STYLE} />
-            <Bar dataKey="value" fill="#0ea5e9" radius={[0, 4, 4, 0]} />
+            <Bar dataKey="value" fill="#0d9488" radius={[0, 4, 4, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </ChartCard>
       <ChartCard>
         <ChartTitle title="Spatial Suitability by Country" badge="Score 0-10" />
+        <p className="text-xs text-muted-foreground mb-3">Biophysical and institutional fit determining priority geography for scaling.</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={d.spatialSuitability}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -79,12 +83,14 @@ function ScalingContextCharts({ data }: { data: Innovation[] }) {
 }
 
 // ==================== SECTOR ====================
+// "What system or problem is being addressed?"
 function SectorCharts({ data }: { data: Innovation[] }) {
   const d = useMemo(() => getSectorData(data), [data]);
   return (
     <>
       <ChartCard>
-        <ChartTitle title="System Performance" badge="Sector" />
+        <ChartTitle title="Sector Performance Indicators" badge="Feeding Demand Signals" />
+        <p className="text-xs text-muted-foreground mb-3">Food, seed, water, climate action performance shaping sector-level demand signals.</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={d.performanceIndicators}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -98,7 +104,8 @@ function SectorCharts({ data }: { data: Innovation[] }) {
         </ResponsiveContainer>
       </ChartCard>
       <ChartCard>
-        <ChartTitle title="Constraint Distribution" badge="%" />
+        <ChartTitle title="Sectoral Constraint Distribution" badge="%" />
+        <p className="text-xs text-muted-foreground mb-3">Core sectoral bottlenecks reducing system productivity and amplifying demand gaps.</p>
         <ResponsiveContainer width="100%" height={200}>
           <PieChart>
             <Pie data={d.constraintsDistribution} cx="50%" cy="50%" outerRadius={70} dataKey="value" label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine={false} fontSize={10}>
@@ -109,13 +116,14 @@ function SectorCharts({ data }: { data: Innovation[] }) {
         </ResponsiveContainer>
       </ChartCard>
       <ChartCard>
-        <ChartTitle title="Water-Energy-Food Nexus" badge="Radar" />
+        <ChartTitle title="Water-Energy-Food Nexus" badge="WEF Radar" />
+        <p className="text-xs text-muted-foreground mb-3">Cross-sectoral interdependencies determining systemic investment priorities.</p>
         <ResponsiveContainer width="100%" height={220}>
           <RadarChart data={d.wefNexus}>
             <PolarGrid stroke="hsl(var(--border))" />
             <PolarAngleAxis dataKey="axis" tick={{ fontSize: 11 }} />
             <PolarRadiusAxis domain={[0, 10]} tick={{ fontSize: 10 }} />
-            <Radar dataKey="value" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.15} strokeWidth={2} dot={{ r: 3, fill: "#8b5cf6" }} />
+            <Radar dataKey="value" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.15} strokeWidth={2} dot={{ r: 3, fill: "#f59e0b" }} />
           </RadarChart>
         </ResponsiveContainer>
       </ChartCard>
@@ -124,12 +132,14 @@ function SectorCharts({ data }: { data: Innovation[] }) {
 }
 
 // ==================== STAKEHOLDERS ====================
+// "Who shapes and legitimizes demand?"
 function StakeholderCharts({ data }: { data: Innovation[] }) {
   const d = useMemo(() => getStakeholderData(data), [data]);
   return (
     <>
       <ChartCard>
-        <ChartTitle title="Stakeholder Composition" badge="Types" />
+        <ChartTitle title="Stakeholder Actor Composition" badge="Typology" />
+        <p className="text-xs text-muted-foreground mb-3">Public, private, investors, NGOs, researchers, farmers shaping demand legitimacy.</p>
         <ResponsiveContainer width="100%" height={200}>
           <PieChart>
             <Pie data={d.stakeholderTypes} cx="50%" cy="50%" outerRadius={70} dataKey="value" label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine={false} fontSize={10}>
@@ -141,26 +151,28 @@ function StakeholderCharts({ data }: { data: Innovation[] }) {
       </ChartCard>
       <ChartCard>
         <ChartTitle title="Adoption Gaps by Country" badge="Willingness vs Capacity" />
+        <p className="text-xs text-muted-foreground mb-3">Gap between stated willingness and actual capacity to adopt — a key demand gap indicator.</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={d.adoptionGaps} barGap={2}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
             <XAxis dataKey="country" tick={{ fontSize: 10 }} />
             <YAxis domain={[0, 10]} tick={{ fontSize: 11 }} />
             <Tooltip contentStyle={TOOLTIP_STYLE} />
-            <Bar dataKey="willingness" fill="#10b981" radius={[3, 3, 0, 0]} name="Willingness" />
-            <Bar dataKey="capacity" fill="#f59e0b" radius={[3, 3, 0, 0]} name="Capacity" />
+            <Bar dataKey="willingness" fill="#f59e0b" radius={[3, 3, 0, 0]} name="Willingness" />
+            <Bar dataKey="capacity" fill="#8b5cf6" radius={[3, 3, 0, 0]} name="Capacity" />
           </BarChart>
         </ResponsiveContainer>
       </ChartCard>
       <ChartCard>
-        <ChartTitle title="Network Strength" badge="Score 0-10" />
+        <ChartTitle title="Stakeholder Network Strength" badge="Score 0-10" />
+        <p className="text-xs text-muted-foreground mb-3">Trust, coordination, information flow and inclusivity across innovation networks.</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={d.networkStrength} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
             <XAxis type="number" domain={[0, 10]} tick={{ fontSize: 11 }} />
             <YAxis type="category" dataKey="name" width={80} tick={{ fontSize: 11 }} />
             <Tooltip contentStyle={TOOLTIP_STYLE} />
-            <Bar dataKey="score" fill="#3b82f6" radius={[0, 4, 4, 0]} />
+            <Bar dataKey="score" fill="#8b5cf6" radius={[0, 4, 4, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </ChartCard>
@@ -169,12 +181,14 @@ function StakeholderCharts({ data }: { data: Innovation[] }) {
 }
 
 // ==================== ENABLING ENVIRONMENT ====================
+// "Can demand translate into action?"
 function EnablingEnvCharts({ data }: { data: Innovation[] }) {
   const d = useMemo(() => getEnablingEnvData(data), [data]);
   return (
     <>
       <ChartCard>
         <ChartTitle title="Policy & Institutional Strength" badge="By Country" />
+        <p className="text-xs text-muted-foreground mb-3">Policies, institutions, and governance conditions enabling demand to translate into action.</p>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={d.policyStrength} barGap={2}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -190,6 +204,7 @@ function EnablingEnvCharts({ data }: { data: Innovation[] }) {
       </ChartCard>
       <ChartCard>
         <ChartTitle title="Governance Quality" badge="Score 0-10" />
+        <p className="text-xs text-muted-foreground mb-3">Transparency, accountability, participation and rule of law feeding Investment Feasibility.</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={d.governanceQuality} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -207,12 +222,14 @@ function EnablingEnvCharts({ data }: { data: Innovation[] }) {
 }
 
 // ==================== RESOURCE & INVESTMENT ====================
+// "Is demand fundable?"
 function ResourceCharts({ data }: { data: Innovation[] }) {
   const d = useMemo(() => getResourceData(data), [data]);
   return (
     <>
       <ChartCard>
-        <ChartTitle title="Funding Distribution" badge="By Source" />
+        <ChartTitle title="Capital Flow Distribution" badge="By Source" />
+        <p className="text-xs text-muted-foreground mb-3">Finance and credit systems, financial actors, instruments and capital flows for scaling.</p>
         <ResponsiveContainer width="100%" height={200}>
           <PieChart>
             <Pie data={d.fundingDistribution} cx="50%" cy="50%" outerRadius={70} dataKey="value" label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine={false} fontSize={10}>
@@ -223,20 +240,22 @@ function ResourceCharts({ data }: { data: Innovation[] }) {
         </ResponsiveContainer>
       </ChartCard>
       <ChartCard>
-        <ChartTitle title="Finance Accessibility" badge="By Country" />
+        <ChartTitle title="Finance Accessibility by Country" badge="Access & Instruments" />
+        <p className="text-xs text-muted-foreground mb-3">Access to financial instruments and infrastructure enabling investment feasibility.</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={d.financeAccessibility} barGap={2}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
             <XAxis dataKey="country" tick={{ fontSize: 10 }} />
             <YAxis domain={[0, 10]} tick={{ fontSize: 11 }} />
             <Tooltip contentStyle={TOOLTIP_STYLE} />
-            <Bar dataKey="access" fill="#10b981" radius={[3, 3, 0, 0]} name="Access" />
+            <Bar dataKey="access" fill="#0ea5e9" radius={[3, 3, 0, 0]} name="Access" />
             <Bar dataKey="instruments" fill="#f59e0b" radius={[3, 3, 0, 0]} name="Instruments" />
           </BarChart>
         </ResponsiveContainer>
       </ChartCard>
       <ChartCard>
-        <ChartTitle title="Risk vs Return Profile" badge="Innovation Types" />
+        <ChartTitle title="Risk vs Return Profile" badge="Investment Criteria" />
+        <p className="text-xs text-muted-foreground mb-3">Investment criteria and risk-return profiles for key innovation archetypes.</p>
         <ResponsiveContainer width="100%" height={220}>
           <ScatterChart>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -244,7 +263,7 @@ function ResourceCharts({ data }: { data: Innovation[] }) {
             <YAxis type="number" dataKey="return" name="Return" domain={[0, 10]} tick={{ fontSize: 11 }} label={{ value: "Return", angle: -90, position: "insideLeft", fontSize: 11 }} />
             <ZAxis type="number" range={[80, 200]} />
             <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(value: number, name: string) => [value, name]} />
-            <Scatter data={d.riskReturn} fill="#8b5cf6" name="Innovations" />
+            <Scatter data={d.riskReturn} fill="#0ea5e9" name="Innovations" />
           </ScatterChart>
         </ResponsiveContainer>
       </ChartCard>
@@ -253,12 +272,14 @@ function ResourceCharts({ data }: { data: Innovation[] }) {
 }
 
 // ==================== MARKET INTELLIGENCE ====================
+// "Is demand economically viable?"
 function MarketCharts({ data }: { data: Innovation[] }) {
   const d = useMemo(() => getMarketData(data), [data]);
   return (
     <>
       <ChartCard>
-        <ChartTitle title="Demand vs Supply Trends" badge="6-Month" />
+        <ChartTitle title="Demand Signal Trends" badge="6-Month" />
+        <p className="text-xs text-muted-foreground mb-3">Demand trends, prices, and consumer behavior driving Investment Feasibility and Demand Gaps.</p>
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={d.demandTrends}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -266,13 +287,14 @@ function MarketCharts({ data }: { data: Innovation[] }) {
             <YAxis domain={[0, 10]} tick={{ fontSize: 11 }} />
             <Tooltip contentStyle={TOOLTIP_STYLE} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Line type="monotone" dataKey="demand" stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} name="Demand" />
-            <Line type="monotone" dataKey="supply" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} name="Supply" />
+            <Line type="monotone" dataKey="demand" stroke="#f43f5e" strokeWidth={2} dot={{ r: 3 }} name="Demand Signal" />
+            <Line type="monotone" dataKey="supply" stroke="#8b5cf6" strokeWidth={2} dot={{ r: 3 }} name="Supply Response" />
           </LineChart>
         </ResponsiveContainer>
       </ChartCard>
       <ChartCard>
         <ChartTitle title="Price Signals by Country" badge="Volatility & Margin" />
+        <p className="text-xs text-muted-foreground mb-3">Price volatility and value-chain margins indicating market access conditions.</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={d.priceSignals} barGap={2}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -286,6 +308,7 @@ function MarketCharts({ data }: { data: Innovation[] }) {
       </ChartCard>
       <ChartCard>
         <ChartTitle title="Regional Demand Intensity" badge="Score 0-10" />
+        <p className="text-xs text-muted-foreground mb-3">Aggregate demand signal strength by country indicating market readiness.</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={d.regionalDemand}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -303,12 +326,14 @@ function MarketCharts({ data }: { data: Innovation[] }) {
 }
 
 // ==================== INNOVATION PORTFOLIO ====================
+// "What solutions exist, are possible, and fit?"
 function PortfolioCharts({ data }: { data: Innovation[] }) {
   const d = useMemo(() => getPortfolioData(data), [data]);
   return (
     <>
       <ChartCard>
-        <ChartTitle title="Readiness Levels" badge="Portfolio" />
+        <ChartTitle title="Innovation Supply Readiness" badge="Portfolio Levels" />
+        <p className="text-xs text-muted-foreground mb-3">Inventory, pipeline readiness, and adoption maturity feeding Innovation Supply dimension.</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={d.readinessLevels}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -322,7 +347,8 @@ function PortfolioCharts({ data }: { data: Innovation[] }) {
         </ResponsiveContainer>
       </ChartCard>
       <ChartCard>
-        <ChartTitle title="Innovation Types" badge="Distribution" />
+        <ChartTitle title="Innovation Typology" badge="Delivery Models" />
+        <p className="text-xs text-muted-foreground mb-3">Innovation archetypes and delivery models shaping supply readiness and bundling options.</p>
         <ResponsiveContainer width="100%" height={200}>
           <PieChart>
             <Pie data={d.innovationTypes} cx="50%" cy="50%" outerRadius={70} dataKey="value" label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine={false} fontSize={10}>
@@ -333,13 +359,14 @@ function PortfolioCharts({ data }: { data: Innovation[] }) {
         </ResponsiveContainer>
       </ChartCard>
       <ChartCard>
-        <ChartTitle title="Performance Metrics" badge="Radar" />
+        <ChartTitle title="Portfolio Performance Radar" badge="5-Dimension Fit" />
+        <p className="text-xs text-muted-foreground mb-3">Portfolio alignment across Geography, Demand, Supply, Feasibility, and evidence base.</p>
         <ResponsiveContainer width="100%" height={220}>
           <RadarChart data={d.performanceRadar}>
             <PolarGrid stroke="hsl(var(--border))" />
             <PolarAngleAxis dataKey="axis" tick={{ fontSize: 10 }} />
             <PolarRadiusAxis domain={[0, 10]} tick={{ fontSize: 10 }} />
-            <Radar dataKey="value" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} dot={{ r: 3, fill: "#3b82f6" }} />
+            <Radar dataKey="value" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.15} strokeWidth={2} dot={{ r: 3, fill: "#8b5cf6" }} />
           </RadarChart>
         </ResponsiveContainer>
       </ChartCard>
