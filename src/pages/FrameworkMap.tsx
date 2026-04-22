@@ -111,7 +111,7 @@ function buildVisualization(svg: SVGSVGElement) {
   const endY = 880;
 
   const headers = [
-    { label: "4 Data Sources", sub: "Knowledge Platforms" },
+    { label: "3 Data Sources", sub: "Knowledge Platforms" },
     { label: "~75 Indicators", sub: "Evidence Points" },
     { label: "28 Themes", sub: "Diagnostic Cells" },
     { label: "7 Domains", sub: "Data Signals" },
@@ -130,7 +130,7 @@ function buildVisualization(svg: SVGSVGElement) {
     svg.appendChild(t2);
   });
 
-  const counts = ["4", "~75", "28", "7", "5", "1"];
+  const counts = ["3", "~75", "28", "7", "5", "1"];
   headers.forEach((_h, i) => {
     const badgeY = headerY + 24;
     const rect = document.createElementNS(NS, "rect");
@@ -215,10 +215,9 @@ function buildVisualization(svg: SVGSVGElement) {
   ];
 
   const dataSources = [
-    { name: "GLOMIP", color: "#2563eb", feedsDomains: [0, 1] },
-    { name: "PRISM", color: "#7c3aed", feedsDomains: [2, 3] },
-    { name: "FINTEL", color: "#0891b2", feedsDomains: [4, 5] },
-    { name: "InnoBase", color: "#059669", feedsDomains: [6] },
+    { name: "Primary Data", color: "#2563eb", feedsDomains: [0, 1, 5] },
+    { name: "Secondary Data", color: "#7c3aed", feedsDomains: [0, 3, 4, 5] },
+    { name: "Partner Data", color: "#059669", feedsDomains: [1, 2, 4, 6] },
   ];
 
   const dimGlowIds = ["glow-dim-gold", "glow-dim-orange", "glow-dim-green", "glow-dim-rose", "glow-dim-blue"];
@@ -274,25 +273,21 @@ function buildVisualization(svg: SVGSVGElement) {
     curY += domainGap;
   });
 
-  // Data source block positions
+  // Data source block positions — evenly distributed vertically
   const srcBlockWidth = 90;
-  const srcBlockPadding = 8;
+  const srcBlockHeight = 45;
+  const totalSrcHeight = dataSources.length * srcBlockHeight;
+  const srcGap = (endY - contentStartY - totalSrcHeight) / (dataSources.length + 1);
   const dataSourcePositions: { x: number; y: number; w: number; h: number; centerX: number; centerY: number; color: string; name: string; feedsDomains: number[] }[] = [];
 
-  dataSources.forEach((src) => {
-    let minY = Infinity, maxY = -Infinity;
-    src.feedsDomains.forEach((di) => {
-      if (domainYRanges[di].startY < minY) minY = domainYRanges[di].startY;
-      if (domainYRanges[di].endY > maxY) maxY = domainYRanges[di].endY;
-    });
-    const blockHeight = Math.max(maxY - minY + srcBlockPadding * 2, 40);
-    const blockY = minY - srcBlockPadding;
-    const blockCenterY = blockY + blockHeight / 2;
+  dataSources.forEach((src, si) => {
+    const blockY = contentStartY + srcGap * (si + 1) + srcBlockHeight * si;
+    const blockCenterY = blockY + srcBlockHeight / 2;
     dataSourcePositions.push({
       x: colX[0] - srcBlockWidth / 2,
       y: blockY,
       w: srcBlockWidth,
-      h: blockHeight,
+      h: srcBlockHeight,
       centerX: colX[0],
       centerY: blockCenterY,
       color: src.color,
