@@ -134,10 +134,241 @@ function mkInnovation(
 }
 
 export const masterData: Innovation[] = [
-  mkInnovation("Solar Irrigation Systems", "Nigeria",
-    7, 8, 4, 7.5, 5,
-    "FAOSTAT / IRENA", "2023",
-    "High smallholder demand in northern corridors; supply chain for panels/pumps immature; financing products nascent."),
+  // ============================================================================
+  // NIGERIA: 20 real demand areas from Wave 1 extraction (7 source files)
+  // All scores derived from evidence in signals_from_*.json files
+  // ============================================================================
+  // Scoring key:
+  //   geo = Geography & Priority (0-10): geographic concentration + policy alignment
+  //   dem = Demand Signals (0-10): policy commitments + stakeholder needs + survey evidence
+  //   sup = Innovation Supply (0-10): CGIAR PRMS innovations matching this area
+  //   gaps = Demand Gaps (0-10): INVERSE - higher = more barriers = worse
+  //   feas = Investment Feasibility (0-10): funding evidence + ROI + institutional capacity
+
+  // -- 1. Solar Irrigation in Northern Nigeria --
+  // THE flagship demand area with deepest evidence base
+  // geo 8.5: Concentrated in Kebbi/Kano/Kaduna; 5.04M ha irrigable potential; Northern Nigeria targeted by ACReSAL ($700M), VCN ($158M), SPIN ($500M)
+  // dem 9.0: 81.3% farmers report climate-induced water stress; 85.3% own pumps (upgrade market); 69% output sold (commercial); Islamic finance coefficient 4.6121; ROI 132-378% on irrigated crops
+  // sup 1.5: Only 1 solar irrigation innovation in PRMS for Nigeria (solar dryer); massive CGIAR supply gap
+  // gaps 7.5: Only 21% access formal credit; 50% lack mobile money; near-zero improved seed use; no dedicated solar irrigation program despite $1.25B in separate energy+irrigation investments
+  // feas 5.5: DARES $750M + SPIN $500M create enabling environment but not directly solar-irrigation; Kebbi distributed 10,000 units; BOA 2-year loans preferred; hybrid finance appetite positive
+  mkInnovation("Solar Irrigation Systems (Northern Nigeria)", "Nigeria",
+    8.5, 9.0, 1.5, 7.5, 5.5,
+    "HHS/DCE Survey (579 HH), PRMS, Programs Inventory", "2025",
+    "Deep HHS/DCE evidence: 81.3% climate water stress, Islamic finance most preferred (coeff 4.6121), ROI 132-378%, but only 21% credit access and 1 CGIAR innovation in PRMS."),
+
+  // -- 2. Climate-Smart Agriculture --
+  // geo 8.0: NCCP 2021-2030 national scope; ACReSAL $700M in semi-arid North; Great Green Wall; NAP Framework targets ag as priority
+  // dem 8.5: 86% stakeholders select climate adaptation as top impact priority; NCCP explicit demand; 24 PRMS innovations with significant climate targeting
+  // sup 7.0: 16 Climate Adaptation innovations in PRMS; 24 with significant climate cross-cutting; FIP-CSA program exists
+  // gaps 5.0: No dedicated CSA strategy (policy specificity gap); only 8.3% policies address CAM; framework policies lack budgets
+  // feas 7.0: ACReSAL $700M, Propcom+ $118M, multiple World Bank programs; strong donor alignment
+  mkInnovation("Climate-Smart Agriculture", "Nigeria",
+    8.0, 8.5, 7.0, 5.0, 7.0,
+    "Policies Inventory, Programs Inventory, Stakeholder Survey, PRMS", "2025",
+    "86% stakeholders prioritize climate adaptation; ACReSAL $700M + Propcom+ $118M; 16 CGIAR climate innovations; but no dedicated CSA policy with budget."),
+
+  // -- 3. Drought-Tolerant Crop Varieties --
+  // geo 8.0: Northern Nigeria semi-arid zones; Great Green Wall states; climate vulnerability high
+  // dem 7.5: NATIP calls for improved varieties; AFSNS demands biofortification; stakeholder survey confirms food security priority (61%)
+  // sup 8.5: 26 Crop Breeding & Genetics innovations in PRMS; strong yam, cassava, maize, cowpea breeding pipelines
+  // gaps 4.5: Near-total reliance on traditional seeds in Kebbi/Kano (~100%); seed policy exists but no dedicated program
+  // feas 6.5: NASC institutional support; IITA as NATIP partner; seed policies in place (NSRM 2020, NASP 2022)
+  mkInnovation("Drought-Tolerant Crop Varieties", "Nigeria",
+    8.0, 7.5, 8.5, 4.5, 6.5,
+    "PRMS, Policies Inventory, Solar HHS Data", "2025",
+    "26 CGIAR breeding innovations in PRMS; NATIP + seed policies signal demand; but near-100% traditional seed use in northern states indicates adoption gap."),
+
+  // -- 4. Nutrition-Sensitive Agriculture --
+  // geo 7.0: National scope; NMPFAN targets all 36 states; school feeding nationwide
+  // dem 8.5: AFSNS N339.3B budget; NMPFAN N294.75B; 61% stakeholders prioritize nutrition/health/food security; ANRiN $232M
+  // sup 6.0: 13 Nutrition & Food Security innovations in PRMS; 35 with significant nutrition cross-cutting; biofortified crops
+  // gaps 4.0: Strong policy framework in place; multiple implementing bodies; some coordination challenges
+  // feas 8.0: Most well-funded policy area: AFSNS N339.3B + NMPFAN N294.75B + NHGSFP + ANRiN $232M; donor convergence (UNICEF, Gates, EU, USAID)
+  mkInnovation("Nutrition-Sensitive Agriculture", "Nigeria",
+    7.0, 8.5, 6.0, 4.0, 8.0,
+    "Policies Inventory, Programs Inventory, PRMS", "2025",
+    "Strongest budget signals: AFSNS N339.3B + NMPFAN N294.75B; 20 NHFS policies (55.6% of total); donor convergence; 13 PRMS nutrition innovations."),
+
+  // -- 5. Digital Agricultural Advisory Services --
+  // geo 6.5: National digital economy agenda; but rural connectivity gaps; DL4ALL program
+  // dem 7.0: NDAS 2020-2030 targets 50% productivity improvement via digital; 61% stakeholders want digital innovation; NATIP calls for e-extension
+  // sup 8.0: 29 Digital Tools & Data innovations in PRMS -- highest category; FARRMS, AquaIndex, etc.
+  // gaps 6.5: No agriculture-specific digital programs despite $618M iDICE; 68% stakeholders report info inadequacy; rural connectivity gap
+  // feas 5.5: NDEPS $10B digital economy budget; DL4ALL, iDICE $618M; but none agriculture-specific; 97.9% phone ownership, 43.7% mobile money
+  mkInnovation("Digital Agricultural Advisory Services", "Nigeria",
+    6.5, 7.0, 8.0, 6.5, 5.5,
+    "Policies Inventory, Programs Inventory, PRMS, Stakeholder Survey", "2025",
+    "29 CGIAR digital innovations (highest PRMS category); NDAS targets 50% productivity via digital; but zero agriculture-specific digital programs."),
+
+  // -- 6. Smallholder Financial Inclusion --
+  // geo 7.5: Northern Nigeria acute; but national relevance; ABP nationwide
+  // dem 8.0: 89% stakeholders identify financial resources as needed; Islamic finance highest DCE coefficient (4.6121); 82% cite finance as top barrier
+  // sup 3.0: No CGIAR financial inclusion innovations in PRMS for Nigeria; this is not a CGIAR core area
+  // gaps 8.5: Only 21% credit access; 50% lack mobile money; only 2 ag finance programs (ABP, GEEP); no crop/livestock insurance programs; moneylenders dominant source (75 of 123 credit entries)
+  // feas 4.0: Anchor Borrowers Programme exists but limited; NAIC Act outdated (1993); no modern ag insurance; GEEP limited
+  mkInnovation("Smallholder Financial Inclusion", "Nigeria",
+    7.5, 8.0, 3.0, 8.5, 4.0,
+    "Solar HHS/DCE Survey, Stakeholder Survey, Programs Inventory", "2025",
+    "89% stakeholders demand finance; only 21% HH access credit; moneylenders dominate; only 2 ag finance programs; Islamic finance demand strongest signal in DCE."),
+
+  // -- 7. Post-Harvest Loss Reduction --
+  // geo 7.0: National problem; SAPZ zones create concentrated opportunity; value chain focus in North (VCN $158M)
+  // dem 6.5: AFSNS calls for improved post-harvest practices; SAPZ agro-processing; value chain programs
+  // sup 3.0: Only 5 Post-Harvest & Value Addition innovations in PRMS; limited supply
+  // gaps 7.0: Only 2 programs mention post-harvest; no cold chain; no storage infrastructure programs; estimated 30-40% perishable crop losses
+  // feas 4.5: SAPZ $538M creates infrastructure but not post-harvest specific; ATASP-1 touches processing; no dedicated funding
+  mkInnovation("Post-Harvest Loss Reduction", "Nigeria",
+    7.0, 6.5, 3.0, 7.0, 4.5,
+    "Programs Inventory, PRMS, Policies Inventory", "2025",
+    "Only 5 PRMS post-harvest innovations; 30-40% perishable crop losses; only 2 programs mention post-harvest; SAPZ $538M creates partial infrastructure."),
+
+  // -- 8. Youth in Agriculture --
+  // geo 7.5: National scope; multiple state-level programs; youth demographic bulge
+  // dem 8.5: 12+ programs target youth; 'youth' appears 22 times in thematic focus; YEAP, N-Power Agro, iDICE $618M; 33.3% unemployment rate
+  // sup 4.0: Limited CGIAR youth-specific innovations; some gender/inclusion cross-cutting (12 innovations)
+  // gaps 5.5: Programs are employment-focused not agriculture-innovation focused; SKYE II ending 2026; coordination across many programs
+  // feas 7.0: iDICE $618M; AGILE $500M+$700M; N-Power; strong government + donor funding; World Bank backing
+  mkInnovation("Youth in Agriculture", "Nigeria",
+    7.5, 8.5, 4.0, 5.5, 7.0,
+    "Programs Inventory, Policies Inventory", "2025",
+    "12+ youth programs; 'youth' mentioned 22 times; iDICE $618M + AGILE $1.2B; but programs focus on employment not agricultural innovation."),
+
+  // -- 9. Gender-Responsive Agricultural Innovation --
+  // geo 7.0: National scope; 4 gender policies cover agriculture; GEYSI has 51 program entries
+  // dem 7.5: 4 dedicated gender policies; 24 of 57 programs target women; $1.7B+ in women-focused World Bank programs; NGPA explicit demand
+  // sup 5.0: 12 Gender & Social Inclusion innovations in PRMS; 25 with significant/principal gender targeting
+  // gaps 6.0: All gender policies lack budgets; HHS shows only 12.1% female respondents; 88% male-dominated farming
+  // feas 7.5: NFWP-SU $500M; AGILE $1.2B; strong World Bank commitment; UNDP/UN Women support
+  mkInnovation("Gender-Responsive Agricultural Innovation", "Nigeria",
+    7.0, 7.5, 5.0, 6.0, 7.5,
+    "Policies Inventory, Programs Inventory, PRMS", "2025",
+    "4 gender policies + 24 programs targeting women; $1.7B+ women-focused WB programs; but all gender policies lack budgets; 12.1% female farmer representation in HHS."),
+
+  // -- 10. Water Management Infrastructure --
+  // geo 8.5: Northern semi-arid zones critical; 67.5% farmers within 7 min of water but surface irrigation dominates (75-90%)
+  // dem 7.0: National Irrigation and Drainage Policy (2015); Water Resources Bill (2020); SPIN $500M; 81.3% climate water stress
+  // sup 2.0: Only 1 Solar Irrigation & Water innovation in PRMS; massive supply deficit
+  // gaps 8.0: No smallholder water harvesting programs; SPIN focuses on institutional/hydropower; 'water' appears only 4 times in program thematic focus; 66% practice no water conservation
+  // feas 5.0: SPIN $500M exists but institutional-level; irrigation policy exists but no budget; water bill not yet enacted
+  mkInnovation("Water Management Infrastructure", "Nigeria",
+    8.5, 7.0, 2.0, 8.0, 5.0,
+    "Policies Inventory, Programs Inventory, Solar HHS Data", "2025",
+    "81.3% climate water stress; SPIN $500M institutional but not smallholder; only 1 PRMS water innovation; 66% farmers practice no water conservation."),
+
+  // -- 11. Pest & Disease Management --
+  // geo 6.5: National relevance; Aflasafe concentrated in West Africa; disease is top crop failure reason (121 mentions in HHS)
+  // dem 6.0: Diseases cited as top crop failure reason in HHS data (121 of 224 reasons); food safety policies; stakeholder demand for biopesticides
+  // sup 8.5: 17 Pest & Disease Management innovations in PRMS; Aflasafe ARDIT facility; biopesticide-based IPM; strong pipeline
+  // gaps 4.5: One Health policies exist but implementation uncertain; food safety regulatory framework in place; some coordination gaps
+  // feas 6.0: Aflasafe has commercial model; food safety regulations exist; NAFDAC institutional support; but limited dedicated program funding
+  mkInnovation("Pest & Disease Management", "Nigeria",
+    6.5, 6.0, 8.5, 4.5, 6.0,
+    "PRMS, Programs Inventory, Solar HHS Data", "2025",
+    "17 PRMS pest/disease innovations including Aflasafe; diseases are #1 crop failure reason (121 HHS mentions); strong supply but limited program funding."),
+
+  // -- 12. Seed System Strengthening --
+  // geo 7.5: National relevance; acute in North where near-100% traditional seed use
+  // dem 7.5: NSRM 2020 + NASP 2022 explicitly demand seed system reform; NATIP calls for improved varieties; NASC as implementing body
+  // sup 7.5: 17 Seed Systems innovations in PRMS; strong yam, cowpea, maize breeding; released varieties for vulgarization
+  // gaps 6.5: No dedicated seed systems program in inventory; near-100% traditional seed in Kebbi/Kano; improved seed expenditure only N1,940/acre vs N44,762 traditional
+  // feas 5.5: NASC institutional framework exists; seed policies in place; but no budget allocation; no dedicated program
+  mkInnovation("Seed System Strengthening", "Nigeria",
+    7.5, 7.5, 7.5, 6.5, 5.5,
+    "Policies Inventory, Programs Inventory, PRMS, Solar HHS Data", "2025",
+    "Two seed policies (NSRM 2020, NASP 2022) + 17 PRMS innovations; but zero dedicated seed programs and near-100% traditional seed use in northern states."),
+
+  // -- 13. Value Chain Integration --
+  // geo 7.0: VCN $158M targets Northern Nigeria; SAPZ zones nationally; RAAMP $575M rural access
+  // dem 7.0: 69% of output sold (commercial farmers); VCN, SAPZ, ATASP-1, Propcom+ programs; NATIP value chain focus
+  // sup 4.0: Limited PRMS value chain innovations; 5 post-harvest; some digital tools
+  // gaps 5.5: Programs production-focused not market-systems; limited post-production attention; infrastructure gaps
+  // feas 7.0: VCN $158M + SAPZ $538M + RAAMP $575M + Propcom+ $118M = $1.4B+ in value chain infrastructure
+  mkInnovation("Value Chain Integration", "Nigeria",
+    7.0, 7.0, 4.0, 5.5, 7.0,
+    "Programs Inventory, Solar HHS Survey, Policies Inventory", "2025",
+    "69% of farmer output sold; $1.4B+ in VCN/SAPZ/RAAMP/Propcom+ programs; but production-focused with limited market systems attention."),
+
+  // -- 14. Agricultural Mechanization --
+  // geo 7.0: National need; 83.2% self-employed in agriculture; near-zero mechanization in HHS data
+  // dem 6.0: NATIP calls for mechanization; 27.7% farmers report farm labor difficulty; but no strong quantitative signal
+  // sup 2.5: No mechanization innovations in PRMS for Nigeria; minimal CGIAR supply
+  // gaps 7.5: No dedicated mechanization program; 'mechanization' appears only tangentially in 3 programs; near-zero in survey data
+  // feas 4.0: No program funding; no institutional framework; ACReSAL mentions it as one component only
+  mkInnovation("Agricultural Mechanization", "Nigeria",
+    7.0, 6.0, 2.5, 7.5, 4.0,
+    "Programs Inventory, Solar HHS Data, Policies Inventory", "2025",
+    "NATIP calls for mechanization; 27.7% report labor difficulty; but zero dedicated programs, near-zero PRMS innovations, no institutional framework."),
+
+  // -- 15. Cassava & Yam Improvement --
+  // geo 7.0: Nigeria is world's largest cassava/yam producer; national crop significance
+  // dem 6.5: NATIP targets productivity; AFSNS includes biofortification (Vitamin A cassava); economic sustainability plan
+  // sup 9.0: Strong PRMS presence: released yam varieties, marker-trait associations, elite yam clones, cassava breeding; INIT-01 has 9 innovations
+  // gaps 4.0: Institutional pathways exist through NASC and IITA partnership; variety release pipelines functional
+  // feas 6.5: IITA named in NATIP; established breeding infrastructure; variety vulgarization underway; NASC operational
+  mkInnovation("Cassava & Yam Improvement", "Nigeria",
+    7.0, 6.5, 9.0, 4.0, 6.5,
+    "PRMS, Policies Inventory, Programs Inventory", "2025",
+    "Strongest PRMS supply area: yam varieties released, marker-trait associations, elite clones; IITA in NATIP partnership; Nigeria is world's top producer."),
+
+  // -- 16. Rice Value Chain Development --
+  // geo 7.5: Northern Nigeria primary production zone; Kebbi/Kano major rice states; ABP rice focus
+  // dem 7.0: Rice ROI 215.78% pooled (HHS data); ABP targets rice; import substitution priority in NESP; rice as top irrigated crop
+  // sup 5.0: Some CGIAR rice innovations but not heavily Nigeria-focused in PRMS; AfricaRice relevant
+  // gaps 5.0: ABP credit model has limitations; traditional seed dominance; import dependence persists
+  // feas 6.5: ABP active; NESP import substitution priority; SAPZ processing zones; high demonstrated ROI
+  mkInnovation("Rice Value Chain Development", "Nigeria",
+    7.5, 7.0, 5.0, 5.0, 6.5,
+    "Solar HHS Survey, Programs Inventory, Policies Inventory", "2025",
+    "Rice ROI 215.78% in HHS data; ABP program active; NESP import substitution priority; but traditional seed dominance and limited PRMS presence."),
+
+  // -- 17. Livestock Systems Development --
+  // geo 7.5: Northern Nigeria pastoral systems; farmer-herder conflict zone; 48.9% HHS respondents farm livestock
+  // dem 7.0: NLTP 2019-2028; Dairy Policy 2023; livestock asset values high (cows N1.19M avg); farmer-herder conflict political priority
+  // sup 5.5: 10 Livestock & Aquaculture innovations in PRMS; AquaIndex; some digital tools
+  // gaps 7.0: Only 1 program mentions pastoralists; no livestock development programs; no animal health/dairy/poultry programs; severe under-programming
+  // feas 4.5: NLTP exists but no budget; Dairy Policy 2023 new; limited institutional framework; conflict complicates investment
+  mkInnovation("Livestock Systems Development", "Nigeria",
+    7.5, 7.0, 5.5, 7.0, 4.5,
+    "Policies Inventory, Programs Inventory, PRMS, Solar HHS Data", "2025",
+    "NLTP + Dairy Policy signal demand; 48.9% HHS respondents have livestock; but only 1 program mentions pastoralists; severe programmatic under-representation."),
+
+  // -- 18. Soil Health Management --
+  // geo 7.0: National relevance; Northern degradation; Great Green Wall target zone
+  // dem 5.5: Only 2 EHB policies (5.6% of total); poor soil cited as crop failure reason (15 HHS mentions); Great Green Wall
+  // sup 4.0: Limited soil health innovations in PRMS for Nigeria; some environmental biodiversity cross-cutting (24 significant)
+  // gaps 7.0: Only 2 EHB policies; no soil health policy; no ecosystem services valuation framework; no sustainable land management policy
+  // feas 4.0: Great Green Wall Initiative exists; but EHB most underfunded impact area; no dedicated budget
+  mkInnovation("Soil Health Management", "Nigeria",
+    7.0, 5.5, 4.0, 7.0, 4.0,
+    "Policies Inventory, Solar HHS Data, PRMS", "2025",
+    "Only 2 EHB policies (5.6% of total); poor soil a crop failure factor; no soil health policy; Great Green Wall only relevant program."),
+
+  // -- 19. Agricultural Extension Modernization --
+  // geo 7.0: National relevance; 56.3% HHS farmers received no extension visits
+  // dem 7.5: Extension officers trusted by 76.9% as primary info source; 82% stakeholders want localization; NATIP calls for extension reform
+  // sup 5.0: Some digital advisory tools in PRMS; 29 digital tools broadly; extension-adjacent
+  // gaps 6.0: 56.3% no extension visits; Kaduna irrigation training only ~36% vs Kebbi 70%; 68% stakeholders report info inadequacy
+  // feas 5.0: NATIP policy framework; some NGO-provided training; but no dedicated extension modernization program or budget
+  mkInnovation("Agricultural Extension Modernization", "Nigeria",
+    7.0, 7.5, 5.0, 6.0, 5.0,
+    "Solar HHS Survey, Stakeholder Survey, Programs Inventory, PRMS", "2025",
+    "Extension officers trusted by 76.9%; but 56.3% receive no visits; 82% stakeholders demand localization; no dedicated extension program."),
+
+  // -- 20. Islamic Agricultural Finance --
+  // geo 7.5: Concentrated in Northern Nigeria Muslim-majority states; Kebbi/Kano strongest signal
+  // dem 8.0: Highest pooled DCE coefficient (4.6121); Kebbi 7.6102, Kano 6.2004; deep cultural alignment; revealed preference data
+  // sup 1.0: Zero CGIAR innovations addressing Islamic finance; not a CGIAR research area
+  // gaps 8.0: No competitive Islamic finance products for agriculture exist; massive unmet demand; standard deviation 8.0436 shows variation
+  // feas 4.5: Jaiz Bank exists in Nigeria; some Islamic banking infrastructure; but no agriculture-specific products; regulatory framework exists for Islamic finance
+  mkInnovation("Islamic Agricultural Finance", "Nigeria",
+    7.5, 8.0, 1.0, 8.0, 4.5,
+    "Solar HHS/DCE Survey", "2025",
+    "Highest DCE coefficient (4.6121) across all attributes; Kebbi 7.6102, Kano 6.2004; zero CGIAR supply; no competitive ag-specific Islamic products exist."),
+
+  // ============================================================================
+  // OTHER COUNTRIES: Illustrative records showing multi-country vision
+  // ============================================================================
 
   mkInnovation("Climate-Resilient Seeds", "Bangladesh",
     8, 9, 8, 2, 8,
@@ -164,11 +395,6 @@ export const masterData: Innovation[] = [
     "CIAT / ICA", "2024",
     "Bio-control agents paired with digital advisory reaching 15k farmers; commercial market pathway forming."),
 
-  mkInnovation("Drip Irrigation Kits", "Nigeria",
-    8, 7, 5, 6.5, 5,
-    "GLoMIP / NAERLS", "2023",
-    "Water-use efficiency gains of 40% documented; affordability and last-mile delivery remain major barriers."),
-
   mkInnovation("Aquaculture Feed Innovation", "Bangladesh",
     7, 7, 7, 3, 7,
     "WorldFish / DoF", "2024",
@@ -193,11 +419,6 @@ export const masterData: Innovation[] = [
     6, 5, 8, 3, 6,
     "HarvestPlus / AGROSAVIA", "2023",
     "Iron-rich beans reaching 200k households; consumer acceptance positive; demand signal moderate."),
-
-  mkInnovation("Mobile Extension Services", "Nigeria",
-    7, 8, 3, 7, 5,
-    "FMARD / GIZ", "2024",
-    "USSD-based advisory reaching 500k farmers; content localization gap for 12 languages; supply thin."),
 
   mkInnovation("Flood-Tolerant Rice", "Bangladesh",
     9, 9, 9, 1.5, 9,
@@ -262,10 +483,10 @@ export function getSectorData(data: Innovation[]) {
       { name: 'Sustainability', score: avg(data, 'domain_sector') },
     ],
     constraintsDistribution: [
-      { name: 'Water Scarcity', value: 30 },
-      { name: 'Energy Access', value: 22 },
-      { name: 'Market Access', value: 28 },
-      { name: 'Labor Shortage', value: 20 },
+      { name: 'Water Scarcity', value: 32 },
+      { name: 'Pest & Disease', value: 28 },
+      { name: 'Market Access', value: 24 },
+      { name: 'Input Access', value: 16 },
     ],
     wefNexus: [
       { axis: 'Water', value: avg(data, 'domain_resource_investment') },
@@ -280,11 +501,11 @@ export function getSectorData(data: Innovation[]) {
 export function getStakeholderData(data: Innovation[]) {
   return {
     stakeholderTypes: [
-      { name: 'Smallholders', value: 40 },
-      { name: 'Agri-Business', value: 22 },
-      { name: 'Gov & Policy', value: 18 },
-      { name: 'NGOs / Dev', value: 12 },
-      { name: 'Research', value: 8 },
+      { name: 'Smallholders', value: 45 },
+      { name: 'Facilitators/Research', value: 20 },
+      { name: 'Gov & Policy', value: 15 },
+      { name: 'Private Sector', value: 10 },
+      { name: 'Innovators/Market', value: 10 },
     ],
     adoptionGaps: COUNTRIES.map(c => {
       const cd = data.filter(d => d.country === c);
@@ -326,10 +547,10 @@ export function getEnablingEnvData(data: Innovation[]) {
 export function getResourceData(data: Innovation[]) {
   return {
     fundingDistribution: [
-      { name: 'Public/Gov', value: 35 },
-      { name: 'DFIs/MDBs', value: 28 },
-      { name: 'Private', value: 22 },
-      { name: 'Blended', value: 15 },
+      { name: 'Mixed (Gov+Donor)', value: 43 },
+      { name: 'Government', value: 29 },
+      { name: 'Donor/DFI', value: 20 },
+      { name: 'Private/PPP', value: 8 },
     ],
     financeAccessibility: COUNTRIES.map(c => {
       const cd = data.filter(d => d.country === c);
@@ -340,11 +561,11 @@ export function getResourceData(data: Innovation[]) {
       };
     }),
     riskReturn: [
-      { name: 'Solar Irrigation', risk: 6, return: 8 },
-      { name: 'Digital Finance', risk: 4, return: 9 },
-      { name: 'Cold Storage', risk: 8, return: 7 },
-      { name: 'Mechanization', risk: 5, return: 7 },
-      { name: 'Bio-Crops', risk: 3, return: 6 },
+      { name: 'Solar Irrigation', risk: 7.5, return: 8.0 },
+      { name: 'Improved Seeds', risk: 3.0, return: 7.0 },
+      { name: 'Digital Advisory', risk: 5.0, return: 6.5 },
+      { name: 'Post-Harvest', risk: 6.0, return: 7.5 },
+      { name: 'Nutrition/Biofortified', risk: 3.5, return: 6.0 },
     ],
   };
 }
@@ -352,12 +573,11 @@ export function getResourceData(data: Innovation[]) {
 export function getMarketData(data: Innovation[]) {
   return {
     demandTrends: [
-      { month: 'Jan', demand: 5.2, supply: 4.1 },
-      { month: 'Feb', demand: 5.5, supply: 4.3 },
-      { month: 'Mar', demand: 6.1, supply: 4.5 },
-      { month: 'Apr', demand: 6.8, supply: 4.8 },
-      { month: 'May', demand: 7.2, supply: 5.0 },
-      { month: 'Jun', demand: 7.5, supply: 5.2 },
+      { month: 'Irrigated Crops', demand: 8.5, supply: 3.0 },
+      { month: 'Climate Adapt.', demand: 8.0, supply: 7.0 },
+      { month: 'Financial Prod.', demand: 9.0, supply: 1.0 },
+      { month: 'Digital Ag', demand: 7.0, supply: 8.0 },
+      { month: 'Post-Harvest', demand: 6.5, supply: 3.0 },
     ],
     priceSignals: COUNTRIES.map(c => {
       const cd = data.filter(d => d.country === c);
@@ -383,10 +603,11 @@ export function getPortfolioData(data: Innovation[]) {
       { level: 'Scaled (9-10)', count: data.filter(d => d.innovation_supply_score > 8).length },
     ],
     innovationTypes: [
-      { name: 'Technology', value: 35 },
-      { name: 'Financial', value: 20 },
-      { name: 'Institutional', value: 25 },
-      { name: 'Market-based', value: 20 },
+      { name: 'Digital Tools & Data', value: 29 },
+      { name: 'Crop Breeding', value: 26 },
+      { name: 'Pest & Disease', value: 17 },
+      { name: 'Seed Systems', value: 17 },
+      { name: 'Climate Adaptation', value: 16 },
     ],
     performanceRadar: [
       { axis: 'Geo Priority', value: avg(data, 'geography_priority_score') },
@@ -408,12 +629,11 @@ export interface RegistrySource {
 }
 
 export const masterRegistry: RegistrySource[] = [
-  { name: "FAOSTAT Crop Production", dimension: "Geography & Priority", domain: "Scaling Context", formats: ["CSV", "API"], status: "ACTIVE", lastRefresh: "12 Apr 2026" },
-  { name: "GLoMIP Price Intelligence", dimension: "Investment Feasibility", domain: "Market Intelligence", formats: ["API", "JSON"], status: "ACTIVE", lastRefresh: "11 Apr 2026" },
-  { name: "AfDB Country Diagnostics", dimension: "Investment Feasibility", domain: "Enabling Environment", formats: ["PDF", "XLSX"], status: "ACTIVE", lastRefresh: "08 Apr 2026" },
-  { name: "CGIAR Research Outputs", dimension: "Innovation Supply", domain: "Innovation Portfolio", formats: ["PDF", "CSV"], status: "ACTIVE", lastRefresh: "10 Apr 2026" },
-  { name: "World Bank LSMS Surveys", dimension: "Demand Signals", domain: "Stakeholders", formats: ["STATA", "CSV"], status: "ACTIVE", lastRefresh: "05 Apr 2026" },
-  { name: "IRENA Renewable Energy Data", dimension: "Investment Feasibility", domain: "Resource & Investment", formats: ["CSV", "API"], status: "ACTIVE", lastRefresh: "09 Apr 2026" },
-  { name: "WFP VAM Food Prices", dimension: "Demand Gaps", domain: "Market Intelligence", formats: ["API", "CSV"], status: "ACTIVE", lastRefresh: "12 Apr 2026" },
-  { name: "Local_Survey_Kwara.csv", dimension: "Demand Signals", domain: "Stakeholders", formats: ["CSV"], status: "VAULTING", lastRefresh: "14 Apr 2026" },
+  { name: "Human-Extracted Demand Data (34 Policy Documents)", dimension: "Demand Signals", domain: "Sector", formats: ["XLSX"], status: "ACTIVE", lastRefresh: "24 Apr 2026" },
+  { name: "Solar Irrigation HHS/DCE Report (579 Households)", dimension: "Demand Signals", domain: "Stakeholders", formats: ["DOCX"], status: "ACTIVE", lastRefresh: "24 Apr 2026" },
+  { name: "Solar Irrigation HHS Raw Data (513 Households)", dimension: "Demand Signals", domain: "Stakeholders", formats: ["XLSX"], status: "ACTIVE", lastRefresh: "24 Apr 2026" },
+  { name: "Stakeholder Profiling Survey (28 Respondents)", dimension: "Demand Gaps", domain: "Stakeholders", formats: ["XLSX"], status: "ACTIVE", lastRefresh: "24 Apr 2026" },
+  { name: "Nigeria Policies Inventory (36 Policies, 5 Impact Areas)", dimension: "Investment Feasibility", domain: "Enabling Environment", formats: ["XLSX"], status: "ACTIVE", lastRefresh: "24 Apr 2026" },
+  { name: "Nigeria Programs Inventory (57 Unique Programs, $9.67B)", dimension: "Investment Feasibility", domain: "Resource & Investment", formats: ["XLSX"], status: "ACTIVE", lastRefresh: "24 Apr 2026" },
+  { name: "CGIAR Innovation PRMS Export (60 Nigeria / 827 Global)", dimension: "Innovation Supply", domain: "Innovation Portfolio", formats: ["XLSX"], status: "ACTIVE", lastRefresh: "24 Apr 2026" },
 ];

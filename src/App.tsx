@@ -10,6 +10,7 @@ import Ingestion from "./pages/Ingestion.tsx";
 import Extract from "./pages/Extract.tsx";
 import Network from "./pages/Network.tsx";
 import FrameworkMap from "./pages/FrameworkMap.tsx";
+import NigeriaDemandIntelligence from "./pages/NigeriaDemandIntelligence.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/ingestion" element={<Ingestion />} />
           <Route path="/extract" element={<Extract />} />
           <Route path="/framework" element={<FrameworkMap />} />
+          <Route path="/nigeria" element={<NigeriaDemandIntelligence />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

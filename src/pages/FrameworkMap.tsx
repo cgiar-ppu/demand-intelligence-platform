@@ -222,11 +222,11 @@ function buildVisualization(svg: SVGSVGElement) {
 
   const dimGlowIds = ["glow-dim-gold", "glow-dim-orange", "glow-dim-green", "glow-dim-rose", "glow-dim-blue"];
   const dimensions = [
-    { name: "Geography &\nPriority", score: "8.0", color: "#f59e0b", glowId: dimGlowIds[0], fromDomains: [1] },
-    { name: "Demand\nSignals", score: "8.0", color: "#f97316", glowId: dimGlowIds[1], fromDomains: [2, 3] },
-    { name: "Innovation\nSupply", score: "6.0", color: "#10b981", glowId: dimGlowIds[2], fromDomains: [7] },
-    { name: "Demand\nGaps", score: "3.0", color: "#f43f5e", glowId: dimGlowIds[3], fromDomains: [3, 6], inverse: true },
-    { name: "Investment\nFeasibility", score: "6.0", color: "#3b82f6", glowId: dimGlowIds[4], fromDomains: [4, 5, 6] },
+    { name: "Geography &\nPriority", score: "7.3", color: "#f59e0b", glowId: dimGlowIds[0], fromDomains: [1] },
+    { name: "Demand\nSignals", score: "7.2", color: "#f97316", glowId: dimGlowIds[1], fromDomains: [2, 3] },
+    { name: "Innovation\nSupply", score: "5.0", color: "#10b981", glowId: dimGlowIds[2], fromDomains: [7] },
+    { name: "Demand\nGaps", score: "6.3", color: "#f43f5e", glowId: dimGlowIds[3], fromDomains: [3, 6], inverse: true },
+    { name: "Investment\nFeasibility", score: "5.6", color: "#3b82f6", glowId: dimGlowIds[4], fromDomains: [4, 5, 6] },
   ];
 
   const domainGap = 7;
@@ -628,7 +628,7 @@ function buildVisualization(svg: SVGSVGElement) {
   const fScore = document.createElementNS(NS, "text");
   fScore.setAttribute("x", String(finalPos.x)); fScore.setAttribute("y", String(finalPos.y + 2));
   fScore.setAttribute("class", "final-score");
-  fScore.textContent = "8.2";
+  fScore.textContent = "5.8";
   gNodes.appendChild(fScore);
 
   const fLabel = document.createElementNS(NS, "text");
