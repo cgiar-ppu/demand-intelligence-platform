@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Radar,
   RadarChart,
@@ -26,8 +26,10 @@ import {
   CLUSTER_COLORS,
   GAP_TYPE_COLORS,
   UNIQUE_DOMAINS,
+  INSPECTOR_SOURCES,
   type DemandSignal,
   type DemandGap,
+  type RawSource,
 } from "@/lib/nigeriaData";
 
 const fadeUp = {
@@ -121,6 +123,69 @@ function SectionHeader({
   );
 }
 
+function RawSourcesPanel({ sources, label }: { sources: RawSource[]; label: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      transition={{ duration: 0.25 }}
+      className="overflow-hidden"
+    >
+      <div className="px-4 py-3 bg-primary/5 border-t" style={{ borderColor: "hsl(var(--glass-border) / 0.08)" }}>
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
+            {label}
+          </span>
+          <span className="text-[10px] text-muted-foreground">
+            {sources.length} source file{sources.length !== 1 ? "s" : ""}
+          </span>
+        </div>
+        <div className="space-y-2.5">
+          {sources.map((src, i) => (
+            <div key={i} className="flex gap-2">
+              <span className="text-primary/60 text-xs mt-0.5 shrink-0">&#128270;</span>
+              <div className="min-w-0">
+                <p className="font-mono text-xs font-bold text-foreground/90 break-all">
+                  {src.file}
+                </p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">
+                  <span className="font-semibold">Location:</span> {src.location}
+                  {src.originalId && (
+                    <span className="ml-2 font-mono opacity-60">({src.originalId})</span>
+                  )}
+                </p>
+                <p className="text-[11px] italic text-muted-foreground/80 mt-0.5 pl-2 border-l-2 border-primary/20 leading-relaxed">
+                  &ldquo;{src.evidenceQuote}&rdquo;
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function EyeButton({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`inline-flex items-center justify-center w-6 h-6 rounded-full transition-all ${
+        isOpen
+          ? "bg-primary/20 text-primary opacity-100"
+          : "opacity-40 hover:opacity-100 hover:bg-primary/10 text-muted-foreground"
+      }`}
+      title={isOpen ? "Hide raw sources" : "Show raw sources"}
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    </button>
+  );
+}
+
 // -- Main Component --
 
 const NigeriaDemandIntelligence = () => {
@@ -128,6 +193,9 @@ const NigeriaDemandIntelligence = () => {
   const [gapClusterFilter, setGapClusterFilter] = useState("all");
   const [signalSort, setSignalSort] = useState<"strength" | "sources">("strength");
   const [gapSort, setGapSort] = useState<"severity" | "type">("severity");
+  const [expandedSignalId, setExpandedSignalId] = useState<string | null>(null);
+  const [expandedGapId, setExpandedGapId] = useState<string | null>(null);
+  const [inspectorOpen, setInspectorOpen] = useState(false);
 
   const filteredSignals = useMemo(() => {
     let list = [...TOP_SIGNALS];
@@ -489,10 +557,10 @@ const NigeriaDemandIntelligence = () => {
                     className="border-b bg-muted/20"
                     style={{ borderColor: "hsl(var(--glass-border) / 0.08)" }}
                   >
-                    {["", "Signal", "Score", "Domain", "Cluster", "Sources", "Key Evidence"].map(
-                      (h) => (
+                    {["", "Signal", "Score", "Domain", "Cluster", "Sources", "Key Evidence", ""].map(
+                      (h, i) => (
                         <th
-                          key={h}
+                          key={`${h}-${i}`}
                           className="text-left text-[10px] uppercase text-muted-foreground py-2.5 px-3 font-bold tracking-wider whitespace-nowrap"
                         >
                           {h}
@@ -502,64 +570,84 @@ const NigeriaDemandIntelligence = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredSignals.map((signal: DemandSignal) => (
-                    <tr
-                      key={signal.id}
-                      className="border-b hover:bg-primary/5 transition"
-                      style={{ borderColor: "hsl(var(--glass-border) / 0.04)" }}
-                    >
-                      <td className="py-2.5 px-3">
-                        <span
-                          className="inline-block h-2.5 w-2.5 rounded-full"
-                          style={{
-                            backgroundColor: strengthColor(signal.strength),
-                          }}
-                        />
-                      </td>
-                      <td className="py-2.5 px-3 font-semibold max-w-[280px]">
-                        <span className="text-[10px] text-muted-foreground font-bold mr-1.5">
-                          {signal.id}
-                        </span>
-                        {signal.title}
-                      </td>
-                      <td className="py-2.5 px-3">
-                        <span
-                          className="inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full"
-                          style={{
-                            backgroundColor: `${strengthColor(signal.strength)}20`,
-                            color: strengthColor(signal.strength),
-                          }}
+                  {filteredSignals.map((signal: DemandSignal) => {
+                    const isExpanded = expandedSignalId === signal.id;
+                    return (
+                      <>
+                        <tr
+                          key={signal.id}
+                          className="border-b hover:bg-primary/5 transition"
+                          style={{ borderColor: "hsl(var(--glass-border) / 0.04)" }}
                         >
-                          {signal.strength}
-                          <span className="text-[9px] font-normal opacity-70">
-                            {strengthLabel(signal.strength)}
-                          </span>
-                        </span>
-                      </td>
-                      <td className="py-2.5 px-3">
-                        <span className="text-xs bg-muted/50 px-2 py-0.5 rounded-md text-muted-foreground whitespace-nowrap">
-                          {signal.domain}
-                        </span>
-                      </td>
-                      <td className="py-2.5 px-3">
-                        <span
-                          className="text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap"
-                          style={{
-                            backgroundColor: `${CLUSTER_COLORS[signal.cluster] || "#6b7280"}15`,
-                            color: CLUSTER_COLORS[signal.cluster] || "#6b7280",
-                          }}
-                        >
-                          {signal.cluster}
-                        </span>
-                      </td>
-                      <td className="py-2.5 px-3 text-center">
-                        <span className="text-xs font-bold">{signal.sourceCount}</span>
-                      </td>
-                      <td className="py-2.5 px-3 text-xs text-muted-foreground max-w-[260px] truncate">
-                        {signal.evidence}
-                      </td>
-                    </tr>
-                  ))}
+                          <td className="py-2.5 px-3">
+                            <span
+                              className="inline-block h-2.5 w-2.5 rounded-full"
+                              style={{
+                                backgroundColor: strengthColor(signal.strength),
+                              }}
+                            />
+                          </td>
+                          <td className="py-2.5 px-3 font-semibold max-w-[280px]">
+                            <span className="text-[10px] text-muted-foreground font-bold mr-1.5">
+                              {signal.id}
+                            </span>
+                            {signal.title}
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <span
+                              className="inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full"
+                              style={{
+                                backgroundColor: `${strengthColor(signal.strength)}20`,
+                                color: strengthColor(signal.strength),
+                              }}
+                            >
+                              {signal.strength}
+                              <span className="text-[9px] font-normal opacity-70">
+                                {strengthLabel(signal.strength)}
+                              </span>
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <span className="text-xs bg-muted/50 px-2 py-0.5 rounded-md text-muted-foreground whitespace-nowrap">
+                              {signal.domain}
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <span
+                              className="text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap"
+                              style={{
+                                backgroundColor: `${CLUSTER_COLORS[signal.cluster] || "#6b7280"}15`,
+                                color: CLUSTER_COLORS[signal.cluster] || "#6b7280",
+                              }}
+                            >
+                              {signal.cluster}
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3 text-center">
+                            <span className="text-xs font-bold">{signal.sourceCount}</span>
+                          </td>
+                          <td className="py-2.5 px-3 text-xs text-muted-foreground max-w-[260px] truncate">
+                            {signal.evidence}
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <EyeButton
+                              isOpen={isExpanded}
+                              onClick={() => setExpandedSignalId(isExpanded ? null : signal.id)}
+                            />
+                          </td>
+                        </tr>
+                        <AnimatePresence>
+                          {isExpanded && signal.rawSources.length > 0 && (
+                            <tr key={`${signal.id}-sources`}>
+                              <td colSpan={8} className="p-0">
+                                <RawSourcesPanel sources={signal.rawSources} label="Source Files & Evidence" />
+                              </td>
+                            </tr>
+                          )}
+                        </AnimatePresence>
+                      </>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -630,69 +718,81 @@ const NigeriaDemandIntelligence = () => {
 
           {/* Gaps Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {filteredGaps.map((gap: DemandGap, idx) => (
-              <motion.div
-                key={gap.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.03 }}
-                className="glass-card !p-0 overflow-hidden flex flex-col"
-              >
-                <div
-                  className="px-4 py-2.5 border-b flex items-center justify-between"
-                  style={{ borderColor: "hsl(var(--glass-border) / 0.08)" }}
+            {filteredGaps.map((gap: DemandGap, idx) => {
+              const isGapExpanded = expandedGapId === gap.id;
+              return (
+                <motion.div
+                  key={gap.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.03 }}
+                  className="glass-card !p-0 overflow-hidden flex flex-col"
                 >
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="inline-block h-2.5 w-2.5 rounded-full"
-                      style={{ backgroundColor: severityColor(gap.severity) }}
-                    />
-                    <span className="text-[10px] font-bold text-muted-foreground">
-                      {gap.id}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                      style={{
-                        backgroundColor: `${GAP_TYPE_COLORS[gap.gapType] || "#6b7280"}20`,
-                        color: GAP_TYPE_COLORS[gap.gapType] || "#6b7280",
-                      }}
-                    >
-                      {gap.gapType}
-                    </span>
-                    <span
-                      className="text-xs font-display font-bold px-2 py-0.5 rounded-full"
-                      style={{
-                        backgroundColor: `${severityColor(gap.severity)}20`,
-                        color: severityColor(gap.severity),
-                      }}
-                    >
-                      {gap.severity} {severityLabel(gap.severity)}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-4 flex-1 flex flex-col">
-                  <h4 className="text-sm font-semibold leading-tight mb-2">
-                    {gap.title}
-                  </h4>
-                  <p className="text-[11px] text-muted-foreground leading-relaxed mb-2 flex-1">
-                    {gap.description}
-                  </p>
                   <div
-                    className="pt-2 border-t text-[10px]"
-                    style={{ borderColor: "hsl(var(--glass-border) / 0.06)" }}
+                    className="px-4 py-2.5 border-b flex items-center justify-between"
+                    style={{ borderColor: "hsl(var(--glass-border) / 0.08)" }}
                   >
-                    <span className="font-bold text-rose-500 uppercase tracking-wider">
-                      Blocking Effect:
-                    </span>{" "}
-                    <span className="text-muted-foreground">
-                      {gap.blockingEffect}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="inline-block h-2.5 w-2.5 rounded-full"
+                        style={{ backgroundColor: severityColor(gap.severity) }}
+                      />
+                      <span className="text-[10px] font-bold text-muted-foreground">
+                        {gap.id}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                        style={{
+                          backgroundColor: `${GAP_TYPE_COLORS[gap.gapType] || "#6b7280"}20`,
+                          color: GAP_TYPE_COLORS[gap.gapType] || "#6b7280",
+                        }}
+                      >
+                        {gap.gapType}
+                      </span>
+                      <span
+                        className="text-xs font-display font-bold px-2 py-0.5 rounded-full"
+                        style={{
+                          backgroundColor: `${severityColor(gap.severity)}20`,
+                          color: severityColor(gap.severity),
+                        }}
+                      >
+                        {gap.severity} {severityLabel(gap.severity)}
+                      </span>
+                      <EyeButton
+                        isOpen={isGapExpanded}
+                        onClick={() => setExpandedGapId(isGapExpanded ? null : gap.id)}
+                      />
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                  <div className="p-4 flex-1 flex flex-col">
+                    <h4 className="text-sm font-semibold leading-tight mb-2">
+                      {gap.title}
+                    </h4>
+                    <p className="text-[11px] text-muted-foreground leading-relaxed mb-2 flex-1">
+                      {gap.description}
+                    </p>
+                    <div
+                      className="pt-2 border-t text-[10px]"
+                      style={{ borderColor: "hsl(var(--glass-border) / 0.06)" }}
+                    >
+                      <span className="font-bold text-rose-500 uppercase tracking-wider">
+                        Blocking Effect:
+                      </span>{" "}
+                      <span className="text-muted-foreground">
+                        {gap.blockingEffect}
+                      </span>
+                    </div>
+                  </div>
+                  <AnimatePresence>
+                    {isGapExpanded && gap.rawSources.length > 0 && (
+                      <RawSourcesPanel sources={gap.rawSources} label="Raw Evidence" />
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
           </div>
         </section>
 
@@ -880,6 +980,104 @@ const NigeriaDemandIntelligence = () => {
               </div>
             </motion.div>
           </div>
+        </section>
+
+        {/* ===== SECTION 7: DATA INSPECTOR ===== */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <SectionHeader
+              badge="Raw Data"
+              badgeColor="#6366f1"
+              title="Data Inspector"
+              subtitle="Inspect the raw source files behind every signal and gap in this intelligence product"
+            />
+            <button
+              onClick={() => setInspectorOpen(!inspectorOpen)}
+              className={`flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-full transition ${
+                inspectorOpen
+                  ? "bg-primary/20 text-primary"
+                  : "bg-muted/30 text-muted-foreground hover:bg-muted/50"
+              }`}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              {inspectorOpen ? "Hide Inspector" : "Inspect Raw Data"}
+            </button>
+          </div>
+
+          <AnimatePresence>
+            {inspectorOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <div className="space-y-3">
+                  {INSPECTOR_SOURCES.map((src, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      className="glass-card !p-4"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-primary/60 text-sm">&#128202;</span>
+                            <h4 className="text-sm font-display font-semibold">{src.name}</h4>
+                          </div>
+                          <p className="font-mono text-[10px] text-muted-foreground break-all mb-1">
+                            {src.file}
+                          </p>
+                          <p className="text-[11px] text-muted-foreground">
+                            <span className="font-semibold">Type:</span> {src.type}
+                          </p>
+                          <p className="text-[11px] text-muted-foreground mt-0.5">
+                            <span className="font-semibold">Key variables:</span> {src.keyVariables}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-3 text-xs shrink-0">
+                          <div className="text-center">
+                            <span className="font-bold text-lg" style={{ color: "#10b981" }}>
+                              {src.signalsExtracted}
+                            </span>
+                            <p className="text-[9px] text-muted-foreground uppercase tracking-wider">signals</p>
+                          </div>
+                          <div className="text-center">
+                            <span className="font-bold text-lg" style={{ color: "#ef4444" }}>
+                              {src.gapsExtracted}
+                            </span>
+                            <p className="text-[9px] text-muted-foreground uppercase tracking-wider">gaps</p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                <div
+                  className="mt-4 pt-3 border-t flex items-center justify-between text-xs"
+                  style={{ borderColor: "hsl(var(--glass-border) / 0.08)" }}
+                >
+                  <span className="text-muted-foreground font-bold">
+                    Total: {INSPECTOR_SOURCES.length} source files
+                  </span>
+                  <div className="flex gap-4">
+                    <span className="font-bold" style={{ color: "#10b981" }}>
+                      {INSPECTOR_SOURCES.reduce((a, s) => a + s.signalsExtracted, 0)} raw signals
+                    </span>
+                    <span className="font-bold" style={{ color: "#ef4444" }}>
+                      {INSPECTOR_SOURCES.reduce((a, s) => a + s.gapsExtracted, 0)} raw gaps
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </section>
 
         {/* Footer */}
