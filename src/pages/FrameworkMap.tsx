@@ -113,7 +113,7 @@ function buildVisualization(svg: SVGSVGElement) {
   const headers = [
     { label: "3 Data Sources", sub: "Knowledge Platforms" },
     { label: "330 Indicators", sub: "Evidence Points" },
-    { label: "28 Themes", sub: "Diagnostic Cells" },
+    { label: "60 Themes", sub: "Diagnostic Cells" },
     { label: "7 Domains", sub: "Data Signals" },
     { label: "5 Dimensions", sub: "Signal Analysis" },
     { label: "Demand Intel.", sub: "Scaling Outcome" },
@@ -130,7 +130,7 @@ function buildVisualization(svg: SVGSVGElement) {
     svg.appendChild(t2);
   });
 
-  const counts = ["3", "330", "28", "7", "5", "1"];
+  const counts = ["3", "330", "60", "7", "5", "1"];
   headers.forEach((_h, i) => {
     const badgeY = headerY + 24;
     const rect = document.createElementNS(NS, "rect");
